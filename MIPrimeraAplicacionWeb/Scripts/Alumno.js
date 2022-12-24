@@ -135,6 +135,7 @@ function cerrarModal() {
 }
 
 function Agregar() {
+    datosObliga();
     if (datosObliga() == true) {
         var frm = new FormData();
         var id = document.getElementById("txtModalId").value;
@@ -160,7 +161,7 @@ function Agregar() {
         if (confirm("¿Desea realmente guardar?") == 1) {
             $.ajax({
                 type: "POST",
-                url: "Periodo/GuardarDatos",
+                url: "Alumno/GuardarDatos",
                 data: frm,
                 contentType: false,
                 processData: false,

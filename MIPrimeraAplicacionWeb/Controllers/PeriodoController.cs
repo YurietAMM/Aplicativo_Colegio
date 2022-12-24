@@ -17,10 +17,14 @@ namespace MIPrimeraAplicacionWeb.Controllers
 
         public JsonResult ListarPeriodos()
         {
-            PruebaDataContext db = new PruebaDataContext();
-            var Lista = (db.Periodo.Where(p => p.BHABILITADO.Equals(1))
-                .Select(p => new { p.IIDPERIODO, p.NOMBRE, FECHAINICIO = ((DateTime)p.FECHAINICIO).ToShortDateString(), FECHAFIN = ((DateTime)p.FECHAFIN).ToShortDateString() })).ToList();
-            return Json(Lista, JsonRequestBehavior.AllowGet);
+            PruebaDataContext bd = new PruebaDataContext();
+            var lista = bd.Periodo.Where(p => p.BHABILITADO.Equals(1))
+                .Select(p => new {
+                    p.IIDPERIODO, p.NOMBRE,
+                    FECHAINICIO = ((DateTime)p.FECHAINICIO).ToShortDateString(),
+                    FECHAFIN = ((DateTime)p.FECHAFIN).ToShortDateString()
+                }).ToList();
+            return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult BuscarPeriodoPorNombre(string nombrePeriodo)
