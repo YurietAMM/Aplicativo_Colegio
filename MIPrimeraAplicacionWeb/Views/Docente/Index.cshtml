@@ -4,6 +4,7 @@
 }
 <link href="~/Content/datatables.css" rel="stylesheet" />
 <link href="~/Content/Obligatorios.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
 <h2>Docente</h2>
 
 <div class="container">
@@ -48,51 +49,51 @@
                 <div class='container'>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>ID:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalId' class='form-control' readonly /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalId' class='borrar form-control' readonly /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Nombre:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalNombre' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalNombre' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Apellido Paterno:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalApePate' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalApePate' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Apellido Materno:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalApeMate' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalApeMate' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Dirección:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalDirecci' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalDirecci' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Telefono Celular:</div>
-                        <div class='col-8 align-items-center'><input type='number' id='txtModalTelCel' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='number' id='txtModalTelCel' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Telefono Fijo:</div>
-                        <div class='col-8 align-items-center'><input type='number' id='txtModalTelFijo' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='number' id='txtModalTelFijo' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Correo Electronico:</div>
-                        <div class='col-8 align-items-center'><input type='email' id='txtModalEmail' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='email' id='txtModalEmail' class='borrar obligatorios form-control' /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Sexo:</div>
-                        <div class='col-8 align-items-center'><select id="cboModalSexo" class="form-select"></select></div>
+                        <div class='col-8 align-items-center'><select id="cboModalSexo" class="borrar obligatorios form-select"></select></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Fecha Contrato:</div>
-                        <div class='col-8 align-items-center'><input type='date' id='txtModalFechaContrato' class='form-control' min="0" /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalFechaContrato' class='borrar obligatorios form-control' min="0" /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Modalidad Contrato:</div>
-                        <div class='col-8 align-items-center'><select id="cboModalContra" class="form-select"></select></div>
+                        <div class='col-8 align-items-center'><select id="cboModalContra" class="borrar obligatorios form-select"></select></div>
                     </div>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>Foto:</div>
-                        <div class='col-8 align-items-center'><input type='file' id='txtModalFoto' class='form-control' /></div>
+                        <div class='col-8 align-items-center'><input type='file' id='txtModalFoto' class='borrar form-control' /></div>
                     </div>
                 </div>
             </div>
@@ -105,5 +106,6 @@
 
 
 <script src="~/Scripts/jquery-3.6.2.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
 <script src="~/Scripts/Docente.js"></script>
 <script src="~/Scripts/datatables.min.js"></script>

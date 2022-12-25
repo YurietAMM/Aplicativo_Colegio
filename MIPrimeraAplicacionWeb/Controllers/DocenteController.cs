@@ -44,5 +44,21 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 .Select(p => new { IID = p.IIDSEXO, p.NOMBRE })).ToList();
             return Json(Lista, JsonRequestBehavior.AllowGet);
         }
+
+        public int EliminarDocente(Docente docentito)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int numRegisAfectados = 0;
+            try
+            {
+                Docente docenteSel = (bd.Docente.Where(p => p.IIDDOCENTE.Equals(docentito.IIDDOCENTE))).First();
+                docenteSel.BHABILITADO = 0;
+                bd.SubmitChanges();
+                numRegisAfectados = 1;
+            }
+            catch (Exception e) { numRegisAfectados = 0; throw e; }
+
+            return numRegisAfectados;
+        }
     }
 }
