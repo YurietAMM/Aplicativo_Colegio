@@ -76,7 +76,6 @@ $.get("Docente/LlenarComboSexo", function (data) {
     LlenarComboBox(data, document.getElementById("cboModalSexo"), true);
 });
 
-
 cboModoPago.onchange = function (cboModoPago) {
     var modo = document.getElementById("cboModoPago").value;
     if (modo == 0) {
