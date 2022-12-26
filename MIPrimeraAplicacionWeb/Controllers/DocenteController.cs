@@ -93,6 +93,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (docentito.IIDDOCENTE == 0)
                 {
+                    docentito.FOTO = Convert.FromBase64String(cadenaFoto);
                     bd.Docente.InsertOnSubmit(docentito);
                     bd.SubmitChanges();
                     numRegisAfectados = 1;

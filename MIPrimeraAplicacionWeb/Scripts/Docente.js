@@ -148,7 +148,7 @@ function Agregar() {
         var sexo = document.getElementById("cboModalSexo").value;
         var fechaContrato = document.getElementById("txtModalFechaContrato").value;
         var modalidadContrato = document.getElementById("cboModalContra").value;
-        var foto = document.getElementById("imgModalFoto").src.replace("data:image/png;base64,", "");
+        var foto = (document.getElementById("imgModalFoto").src).replace("data:image/png;base64,", "");
 
         frm.append("IIDDOCENTE", id);
         frm.append("NOMBRE", nombre);
@@ -161,7 +161,7 @@ function Agregar() {
         frm.append("IIDSEXO", sexo);
         frm.append("FECHACONTRATO", fechaContrato);
         frm.append("IIDMODALIDADCONTRATO", modalidadContrato);
-        frm.append("cadenaFoto", foto);
+        frm.append("CADENAFOTO", foto);
         frm.append("BHABILITADO", 1);
         frm.append("IIDTIPOUSUARIO", "D");
         frm.append("bTieneUsuario", 0);
