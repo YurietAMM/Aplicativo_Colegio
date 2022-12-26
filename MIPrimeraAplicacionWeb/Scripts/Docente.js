@@ -134,7 +134,84 @@ ListarComboModalidad();
 
 Listar();
 
+function Agregar() {
+    if (datosObliga() == true) {
+        var frm = new FormData();
+        var id = document.getElementById("txtModalId").value;
+        var nombre = document.getElementById("txtModalNombre").value;
+        var apePate = document.getElementById("txtModalApePate").value;
+        var apeMate = document.getElementById("txtModalApeMate").value;
+        var direccion = document.getElementById("txtModalDirecci").value;
+        var telCel = document.getElementById("txtModalTelCel").value;
+        var telFijo = document.getElementById("txtModalTelFijo").value;
+        var email = document.getElementById("txtModalEmail").value;
+        var sexo = document.getElementById("cboModalSexo").value;
+        var fechaContrato = document.getElementById("txtModalFechaContrato").value;
+        var modalidadContrato = document.getElementById("cboModalContra").value;
+        var foto = document.getElementById("imgModalFoto").src.replace("data:image/png;base64,", "");
 
+        frm.append("IIDDOCENTE", id);
+        frm.append("NOMBRE", nombre);
+        frm.append("APPATERNO", apePate);
+        frm.append("APMATERNO", apeMate);
+        frm.append("DIRECCION", direccion);
+        frm.append("TELEFONOCELULAR", telCel);
+        frm.append("TELEFONOFIJO", telFijo);
+        frm.append("EMAIl", email);
+        frm.append("IIDSEXO", sexo);
+        frm.append("FECHACONTRATO", fechaContrato);
+        frm.append("IIDMODALIDADCONTRATO", modalidadContrato);
+        frm.append("cadenaFoto", foto);
+        frm.append("BHABILITADO", 1);
+        frm.append("IIDTIPOUSUARIO", "D");
+        frm.append("bTieneUsuario", 0);
+
+        if (confirm("¿Desea realmente guardar?") == 1) {
+            $.ajax({
+                type: "POST",
+                url: "Docente/GuardarDatos",
+                data: frm,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    if (data != 0) {
+                        console.log("todo bien");
+                        Listar();
+                        document.getElementById("btn-cerrarModal").click();
+                    } else {
+                        alert("ocurrio un error");
+                    }
+                }
+            });
+        }
+
+
+    }
+    quitarError();
+}
+
+function Editar(Id) {
+
+    $.get("Docente/RecuperarDatos/?id=" + Id, function (data) {
+        document.getElementById("txtModalId").value = data[0].IIDDOCENTE;
+        document.getElementById("txtModalNombre").value = data[0].NOMBRE;
+        document.getElementById("txtModalApePate").value = data[0].APPATERNO;
+        document.getElementById("txtModalApeMate").value = data[0].APMATERNO;
+        document.getElementById("txtModalDirecci").value = data[0].DIRECCION;
+        document.getElementById("txtModalTelCel").value = data[0].TELEFONOCELULAR;
+        document.getElementById("txtModalTelFijo").value = data[0].TELEFONOFIJO;
+        document.getElementById("txtModalEmail").value = data[0].EMAIL;
+        document.getElementById("cboModalSexo").value = data[0].IIDSEXO;
+        document.getElementById("txtModalFechaContrato").value = data[0].FECHACONTRATO;
+        document.getElementById("cboModalContra").value = data[0].IIDMODALIDADCONTRATO;
+        document.getElementById("imgModalFoto").src = "data:image/png;base64,"+data[0].FOTOMOSTRAR;
+    });
+    var btn = document.getElementById("btnAgregarEditar");
+    btn.classList.remove("btn-success");
+    btn.classList.add("btn-info");
+    btn.value = "Editar";
+    Agregar();
+}
 
 function abrirModal(ID) {
     quitarError();
@@ -164,4 +241,18 @@ function Eliminar(id) {
             }
         });
     }
+}
+
+var btnModalFoto = document.getElementById("btnModalFoto");
+
+btnModalFoto.onchange = function (e) {
+    var file = document.getElementById("btnModalFoto").files[0];
+    var reader = new FileReader();
+    if (reader != null) {
+        reader.onloadend = function () {
+            var img = document.getElementById("imgModalFoto");
+            img.src = reader.result;
+        }
+    }
+    reader.readAsDataURL(file);
 }
