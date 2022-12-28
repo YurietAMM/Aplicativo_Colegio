@@ -98,6 +98,7 @@
     <Content Include="Scripts\Curso.js" />
     <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\Docente.js" />
+    <Content Include="Scripts\GradoSeccion.js" />
     <Content Include="Scripts\jquery-3.6.2.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
     <Content Include="Scripts\Periodo.js" />
@@ -109,6 +110,7 @@
     <Compile Include="Controllers\AlumnoController.cs" />
     <Compile Include="Controllers\CursoController.cs" />
     <Compile Include="Controllers\DocenteController.cs" />
+    <Compile Include="Controllers\GradoSeccionController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\SeccionController.cs" />
     <Compile Include="Global.asax.cs">
@@ -142,6 +144,7 @@
     <Content Include="Views\Alumno\Index.cshtml" />
     <Content Include="Views\Docente\Index.cshtml" />
     <Content Include="Views\Seccion\Index.cshtml" />
+    <Content Include="Views\GradoSeccion\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

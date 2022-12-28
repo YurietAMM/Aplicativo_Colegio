@@ -1,0 +1,72 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
+<link href="~/Content/Obligatorios.css" rel="stylesheet" />
+<link href="~/Content/datatables.css" rel="stylesheet" />
+<h2>Grado Sección</h2>
+
+<div class="container">
+    <button type="button" class="btn btn-success" onclick="abrirModal(0)" data-bs-toggle='modal' data-bs-target='#agregarEditarModal'>
+        Agregar
+    </button>
+    <div id="divTabla" class="container">
+
+    </div>
+</div>
+
+<!-- Modal Borrar -->
+<div class="modal" id="borrarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ¿Esta seguro de borrar esto?
+            </div>
+            <div class="modal-footer">
+                <button id="btn-Eliminar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Agregar/Aptualizar -->
+<div class="modal" id="agregarEditarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar</h1>
+                <button id="btn-cerrarModal" type="button" class="btn-close" onclick="cerrarModal()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="body-editar-modal" class="modal-body">
+                <div class='container'>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>ID:</div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalId' class='borrar form-control' readonly /></div>
+                    </div>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>Grado:</div>
+                        <div class='col-8 align-items-center'><select type='text' id='cboModalGrado' class='borrar obligatorios form-control'></select></div>
+                    </div>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>Seccion:</div>
+                        <div class='col-8 align-items-center'><select type='text' id='cboModalSeccion' class='borrar obligatorios form-control'></select></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" id='btnAgregarEditar' onclick="Agregar()" class="btn btn-success" value="Agregar" />
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="~/Scripts/jquery-3.6.2.min.js"></script>
+<script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/GradoSeccion.js"></script>
+<script src="~/Scripts/datatables.min.js"></script>

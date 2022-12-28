@@ -192,11 +192,12 @@ function Editar(id) {
         document.getElementById("txtModalTelPadre").value = data[0].TELEFONOPADRE;
         document.getElementById("txtModalTelMadre").value = data[0].TELEFONOMADRE;
         document.getElementById("txtModalNumHerma").value = data[0].NUMEROHERMANOS;
-        var btn = document.getElementById("btnAgregarEditar");
-        btn.classList.remove("btn-success");
-        btn.classList.add("btn-info");
-        btn.value = "Editar";
+        
     });
+    var btn = document.getElementById("btnAgregarEditar");
+    btn.classList.remove("btn-success");
+    btn.classList.add("btn-info");
+    btn.value = "Editar";
     Agregar();
 }
 
