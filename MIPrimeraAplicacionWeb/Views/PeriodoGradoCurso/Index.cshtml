@@ -2,14 +2,13 @@
 @{
     ViewBag.Title = "Index";
 }
-
-<h2>Periodo</h2>
-<link href="~/Content/datatables.css" rel="stylesheet" />
+<link href="~/Content/jquery-ui.min.css" rel="stylesheet" />
 <link href="~/Content/Obligatorios.css" rel="stylesheet" />
+<h2>Periodo Grado Curso</h2>
+
+
 <div class="container">
-    <label>Ingrese nombre: </label>
-    <input type="text" id="txtNombrePeriodo" class="form-control" />
-    <button type="button" class="btn btn-success" data-bs-toggle='modal' data-bs-target='#agregarEditarModal'>
+    <button type="button" class="btn btn-success" onclick="abrirModal(0)" data-bs-toggle='modal' data-bs-target='#agregarEditarModal'>
         Agregar
     </button>
     <div id="divTabla" class="container">
@@ -23,19 +22,19 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar</h1>
-                <button type="button" onclick="cerrarModal()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 ¿Esta seguro de borrar esto?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
+                <button id="btn-Eliminar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
 </div>
-<!-- Modal Agregar y Editar -->
+
+<!-- Modal Agregar/Aptualizar -->
 <div class="modal" id="agregarEditarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -47,19 +46,19 @@
                 <div class='container'>
                     <div class='row text-align-center d-flex'>
                         <div class='col-4 text-align-center align-items-center'>ID:</div>
-                        <div class='col-8 align-items-center'><input type='number' id='txtModalId' class='borrar form-control' readonly /></div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalId' class='borrar form-control' readonly /></div>
                     </div>
                     <div class='row text-align-center d-flex'>
-                        <div class='col-4 text-align-center align-items-center'>Nombre:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalNombre' class='borrar obligatorios form-control' /></div>
+                        <div class='col-4 text-align-center align-items-center'>Periodo:</div>
+                        <div class='col-8 align-items-center'><select type='text' id='cboModalPeriodo' class='borrar obligatorios form-control'></select></div>
                     </div>
                     <div class='row text-align-center d-flex'>
-                        <div class='col-4 text-align-center align-items-center'>Fecha Inicio:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalFechaInicio' class='borrar obligatorios form-control' /></div>
+                        <div class='col-4 text-align-center align-items-center'>Grado:</div>
+                        <div class='col-8 align-items-center'><select type='text' id='cboModalGrado' class='borrar obligatorios form-control'></select></div>
                     </div>
                     <div class='row text-align-center d-flex'>
-                        <div class='col-4 text-align-center align-items-center'>Fecha Fin:</div>
-                        <div class='col-8 align-items-center'><input type='text' id='txtModalFechaFin' class='borrar obligatorios form-control' /></div>
+                        <div class='col-4 text-align-center align-items-center'>Curso:</div>
+                        <div class='col-8 align-items-center'><select type='text' id='cboModalCurso' class='borrar obligatorios form-control'></select></div>
                     </div>
                 </div>
             </div>
@@ -73,5 +72,5 @@
 
 <script src="~/Scripts/jquery-3.6.2.min.js"></script>
 <script src="~/Scripts/jquery-ui.min.js"></script>
+<script src="~/Scripts/PeriodoGradoCurso.js"></script>
 <script src="~/Scripts/datatables.min.js"></script>
-<script src="~/Scripts/Periodo.js"></script>

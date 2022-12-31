@@ -22,6 +22,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                         on gradoSec.IIDSECCION equals sec.IIDSECCION 
                         join grad in bd.Grado
                         on gradoSec.IIDGRADO equals grad.IIDGRADO
+                        where gradoSec.BHABILITADO.Equals(1)
                         select new
                         {
                             gradoSec.IID,
@@ -90,6 +91,22 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 }
             }
             catch(Exception ex) { numRegisAfectados = 0; throw ex; }
+
+            return numRegisAfectados;
+         }
+
+        public int Eliminar(int id)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int numRegisAfectados = 0;
+            try
+            {
+                GradoSeccion seleccionado = (bd.GradoSeccion.Where(p => p.IID.Equals(id))).First();
+                seleccionado.BHABILITADO = 0;
+                bd.SubmitChanges();
+                numRegisAfectados = 1;
+            }
+            catch (Exception e) { numRegisAfectados = 0; throw e; }
 
             return numRegisAfectados;
         }

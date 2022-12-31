@@ -25,7 +25,7 @@
 
         }
         contenido += "<td>";
-        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='abrirModal(" + data[i].IIDALUMNO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
+        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IIDALUMNO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
         contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='Eliminar(" + data[i].IIDALUMNO + ")'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
         contenido += "</tr>";
@@ -198,15 +198,6 @@ function Editar(id) {
     btn.classList.remove("btn-success");
     btn.classList.add("btn-info");
     btn.value = "Editar";
-    Agregar();
-}
-
-function abrirModal(ID) {
-    quitarError();
-
-    if (ID !== 0) {
-        Editar(ID);
-    }
 }
 
 function Eliminar(id) {

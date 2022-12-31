@@ -25,7 +25,7 @@
 
         }
         contenido += "<td>";
-        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='abrirModal(" + data[i].IIDCURSO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
+        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IIDCURSO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
         contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
         contenido += "    </tr>";
