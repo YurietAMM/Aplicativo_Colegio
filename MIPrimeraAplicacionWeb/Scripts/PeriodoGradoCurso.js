@@ -26,7 +26,7 @@
         }
         contenido += "<td>";
         contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IID + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
-        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='Eliminar(" + data[i].IID + ")'><i class='bi bi-trash3-fill'></i></button>";
+        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='AbrirEliminar(" + data[i].IID + ")' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
         contenido += "</tr>";
     }
@@ -66,15 +66,15 @@ function LlenarComboBox(data, control, primerElemento) {
 
 function LlenarCombosPeriodoGradoCurso() {
 
-    $.get("PeridoGradoCurso/ListarPeriodo", function (data) {
+    $.get("PeriodoGradoCurso/ListarPeriodo", function (data) {
         LlenarComboBox(data, document.getElementById("cboModalPeriodo"), true);
     });
 
-    $.get("PeridoGradoCurso/ListarCurso", function (data) {
+    $.get("PeriodoGradoCurso/ListarCurso", function (data) {
         LlenarComboBox(data, document.getElementById("cboModalCurso"), true);
     });
 
-    $.get("PeridoGradoCurso/ListarGrado", function (data) {
+    $.get("PeriodoGradoCurso/ListarGrado", function (data) {
         LlenarComboBox(data, document.getElementById("cboModalGrado"), true);
     });
 
@@ -123,17 +123,19 @@ function Agregar() {
         var frm = new FormData();
         var id = document.getElementById("txtModalId").value;
         var grado = document.getElementById("cboModalGrado").value;
-        var seccion = document.getElementById("cboModalSeccion").value;
+        var curso = document.getElementById("cboModalCurso").value;
+        var periodo = document.getElementById("cboModalPeriodo").value;
 
         frm.append("IID", id);
         frm.append("IIDGRADO", grado);
-        frm.append("IIDSECCION", seccion);
-        frm.append("bTieneUsuario", 0);
+        frm.append("IIDCURSO", curso);
+        frm.append("IIDPERIODO", periodo);
+        frm.append("BHABILITADO", 1);
 
         if (confirm("¿Desea realmente guardar?") == 1) {
             $.ajax({
                 type: "POST",
-                url: "PeridoGradoCurso/GuardarDatos",
+                url: "PeriodoGradoCurso/GuardarDatos",
                 data: frm,
                 contentType: false,
                 processData: false,
@@ -156,7 +158,7 @@ function Agregar() {
 
 function Editar(Id) {
 
-    $.get("PeridoGradoCurso/RecuperarDatos/?id=" + Id, function (data) {
+    $.get("PeriodoGradoCurso/RecuperarDatos/?id=" + Id, function (data) {
         document.getElementById("txtModalId").value = data[0].IID;
         document.getElementById("cboModalGrado").value = data[0].IIDGRADO;
         document.getElementById("cboModalPeriodo").value = data[0].IIDPERIODO;
@@ -168,15 +170,19 @@ function Editar(Id) {
     btn.value = "Editar";
 }
 
-function Eliminar(id) {
-    if (confirm("¿Desea eliminar?") == 1) {
-        $.get("GradoSeccion/Eliminar/?id=" + id, function (data) {
-            if (data == 0) {
-                alert("Ocurrio un error");
-            }
-            else {
-                Listar();
-            }
-        });
-    }
+function Eliminar() {
+    var id = document.getElementById("spanModalId").value;
+    $.get("PeriodoGradoCurso/Eliminar/?id=" + id, function (data) {
+        if (data == 0) {
+            alert("Ocurrio un error");
+        }
+        else {
+            Listar();
+            document.getElementById("btn-cerrarModal").click();
+        }
+    });
+}
+
+function AbrirEliminar(id) {
+    document.getElementById("spanModalId").value = id;
 }

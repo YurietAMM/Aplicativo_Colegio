@@ -26,6 +26,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                         on pgc.IIDGRADO equals grad.IIDGRADO
                         join cur in bd.Curso
                         on pgc.IIDCURSO equals cur.IIDCURSO
+                        where pgc.BHABILITADO.Equals(1)
                         select new
                         {
                             pgc.IID,
@@ -89,6 +90,48 @@ namespace MIPrimeraAplicacionWeb.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
+        public int GuardarDatos(PeriodoGradoCurso pgc)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int numRegisAfectados = 0;
 
+            try
+            {
+                if (pgc.IID == 0)
+                {
+                    bd.PeriodoGradoCurso.InsertOnSubmit(pgc);
+                    bd.SubmitChanges();
+                    numRegisAfectados = 1;
+                }
+                else
+                {
+                    PeriodoGradoCurso pgcGuardado = bd.PeriodoGradoCurso.Where(p => p.IID.Equals(pgc.IID)).First();
+                    pgcGuardado.IIDGRADO = pgc.IIDGRADO;
+                    pgcGuardado.IIDPERIODO = pgc.IIDPERIODO;
+                    pgcGuardado.IIDCURSO = pgc.IIDCURSO;
+                    bd.SubmitChanges();
+                    numRegisAfectados = 1;
+                }
+            }
+            catch (Exception ex) { numRegisAfectados = 0; throw ex; }
+
+            return numRegisAfectados;
+        }
+
+        public int Eliminar(int id)
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int numRegisAfectados = 0;
+            try
+            {
+                PeriodoGradoCurso seleccionado = (bd.PeriodoGradoCurso.Where(p => p.IID.Equals(id))).First();
+                seleccionado.BHABILITADO = 0;
+                bd.SubmitChanges();
+                numRegisAfectados = 1;
+            }
+            catch (Exception e) { numRegisAfectados = 0; throw e; }
+
+            return numRegisAfectados;
+        }
     }
 }

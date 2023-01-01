@@ -26,7 +26,7 @@
         }
         contenido += "<td>";
         contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IID + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
-        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='Eliminar(" + data[i].IID + ")'><i class='bi bi-trash3-fill'></i></button>";
+        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='AbrirEliminar(" + data[i].IID + ")' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
         contenido += "</tr>";
     }
@@ -124,7 +124,7 @@ function Agregar() {
         frm.append("IID", id);
         frm.append("IIDGRADO", grado);
         frm.append("IIDSECCION", seccion);
-        frm.append("bTieneUsuario", 0);
+        frm.append("BHABILITADO", 1);
 
         if (confirm("¿Desea realmente guardar?") == 1) {
             $.ajax({
@@ -163,15 +163,19 @@ function Editar(Id) {
     btn.value = "Editar";
 }
 
-function Eliminar(id) {
-    if (confirm("¿Desea eliminar?") == 1) {
+function Eliminar() {
+    var id = document.getElementById("spanModalId").value;
         $.get("GradoSeccion/Eliminar/?id=" + id, function (data) {
             if (data == 0) {
                 alert("Ocurrio un error");
             }
             else {
                 Listar();
+                document.getElementById("btn-cerrarModal").click();
             }
         });
-    }
+}
+
+function AbrirEliminar(id) {
+    document.getElementById("spanModalId").value = id;
 }

@@ -69,7 +69,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
         }
 
          public int GuardarDatos(GradoSeccion gradiSeccionsita)
-        {
+         {
             PruebaDataContext bd = new PruebaDataContext();
             int numRegisAfectados = 0;
 

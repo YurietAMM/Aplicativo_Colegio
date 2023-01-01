@@ -22,13 +22,15 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button id="btn-cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                ¿Esta seguro de borrar esto?
+                <p class="h3">¿Esta seguro de borrar esto?</p>
+                <br />
+                <input type="hidden" id="spanModalId" />
             </div>
             <div class="modal-footer">
-                <button id="btn-Eliminar" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-danger" onclick="Eliminar()">Borrar</button>
             </div>
         </div>
     </div>
