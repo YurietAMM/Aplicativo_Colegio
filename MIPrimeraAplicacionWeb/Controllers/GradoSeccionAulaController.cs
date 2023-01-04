@@ -102,13 +102,10 @@ namespace MIPrimeraAplicacionWeb.Controllers
         public JsonResult ListarCurso (int IIDPERIODO, int IIDGRADOSECCION)
         {
             PruebaDataContext bd = new PruebaDataContext();
-            IQueryable lista;
-
-            try
-            {
+            
                 int iidGrado = (int)bd.GradoSeccion.Where(p => p.IID.Equals(IIDGRADOSECCION)).First().IIDGRADO;
 
-                lista = from pgc in bd.PeriodoGradoCurso
+                var lista = from pgc in bd.PeriodoGradoCurso
                             join curso in bd.Curso
                             on pgc.IIDCURSO equals curso.IIDCURSO
                             join periodo in bd.Periodo
@@ -120,9 +117,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                                 IID = pgc.IIDCURSO,
                                 curso.NOMBRE
                             };
-            }
-            catch(Exception ex) { throw ex; }
-
+            
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 

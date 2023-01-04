@@ -45,13 +45,12 @@ function Listar() {
 
 Listar();
 
-var Periodo = document.getElementById("cboModalPeriodo");
-var GradoSeccion = document.getElementById("cboModalGradoSeccion");
+var PeriodoObj = document.getElementById("cboModalPeriodo");
+var GradoSeccionObj = document.getElementById("cboModalGradoSeccion");
 
-
-GradoSeccion.onchange = function () {
-    if (Periodo.value != 0 && GradoSeccion.value != 0) {
-        $.get("GradoSeccionAula/ListarCurso/?IIDPERIODO=" + Periodo.value + "&IIDGRADOSECCION=" + GradoSeccion.value, function (data) {
+GradoSeccionObj.onchange = function () {
+    if (PeriodoObj.value != "" && GradoSeccionObj.value != "") {
+        $.get("GradoSeccionAula/ListarCurso/?IIDPERIODO=" + PeriodoObj.value + "&IIDGRADOSECCION=" + GradoSeccionObj.value, function (data) {
             LlenarComboBox(data, document.getElementById("cboModalCurso"), true);
         });
     }
@@ -139,7 +138,7 @@ function Agregar() {
         var frm = new FormData();
         var id = document.getElementById("txtModalId").value;
         var periodo = document.getElementById("cboModalPeriodo").value;
-        var gradoSeccion = getElementById("cboModalGradoSeccion").value;
+        var gradoSeccion = document.getElementById("cboModalGradoSeccion").value;
         var aula = document.getElementById("cboModalAula").value
         var docente = document.getElementById("cboModalDocente").value;
         var curso = document.getElementById("cboModalCurso").value;
@@ -184,8 +183,8 @@ function Editar(Id) {
         document.getElementById("cboModalGradoSeccion").value = data[0].IIDGRADOSECCION;
         document.getElementById("cboModalAula").value = data[0].IIDAULA;
         document.getElementById("cboModalDocente").value = data[0].IIDDOCENTE;
-        if (Periodo.value != "" && GradoSeccion.value != "") {
-            $.get("GradoSeccionAula/ListarCurso/?IIDPERIODO=" + Periodo.value + "&IIDGRADOSECCION=" + GradoSeccion.value, function (rpta) {
+        if (document.getElementById("cboModalPeriodo").value != "" && document.getElementById("cboModalGradoSeccion").value != "") {
+            $.get("GradoSeccionAula/ListarCurso/?IIDPERIODO=" + document.getElementById("cboModalPeriodo").value + "&IIDGRADOSECCION=" + document.getElementById("cboModalGradoSeccion").value, function (rpta) {
                 LlenarComboBox(rpta, document.getElementById("cboModalCurso"), true);
                 document.getElementById("cboModalCurso").value = data[0].IIDCURSO;
             });
