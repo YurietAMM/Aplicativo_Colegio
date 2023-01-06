@@ -45,6 +45,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -102,6 +103,7 @@
     <Content Include="Scripts\GradoSeccionAula.js" />
     <Content Include="Scripts\jquery-3.6.2.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\Matricula.js" />
     <Content Include="Scripts\Periodo.js" />
     <Content Include="Scripts\PeriodoGradoCurso.js" />
     <Content Include="Scripts\Seccion.js" />
@@ -114,6 +116,7 @@
     <Compile Include="Controllers\DocenteController.cs" />
     <Compile Include="Controllers\GradoSeccionAulaController.cs" />
     <Compile Include="Controllers\GradoSeccionController.cs" />
+    <Compile Include="Controllers\MatriculaController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PeriodoGradoCursoController.cs" />
     <Compile Include="Controllers\SeccionController.cs" />
@@ -151,6 +154,7 @@
     <Content Include="Views\GradoSeccion\Index.cshtml" />
     <Content Include="Views\PeriodoGradoCurso\Index.cshtml" />
     <Content Include="Views\GradoSeccionAula\Index.cshtml" />
+    <Content Include="Views\Matricula\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
