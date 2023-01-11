@@ -142,7 +142,7 @@ function Agregar() {
                 success: function (data) {
                     if (data != 0) {
                         console.log("todo bien");
-                        Listar();
+                        //Listar();
                         document.getElementById("btn-cerrarModal").click();
                     } else {
                         alert("ocurrio un error");

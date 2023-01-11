@@ -74,30 +74,31 @@ namespace MIPrimeraAplicacionWeb.Controllers
 
             try
             {
+                
                 using(var transaccion = new TransactionScope())
                 {
                     if (gsa.IIDMATRICULA.Equals(0))
                     {
                         bd.Matricula.InsertOnSubmit(gsa);
                         bd.SubmitChanges();
-                        int idMatricula = gsa.IIDMATRICULA;
-                        var ListaCurso = bd.PeriodoGradoCurso
-                            .Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO )&& p.IIDGRADO.Equals(IIDGrado) && p.BHABILITADO.Equals(1))
-                            .Select(p => p.IIDCURSO);
 
-                        foreach(var item in ListaCurso)
+                        int idMG = gsa.IIDMATRICULA;
+
+                        var listaCursos = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
+                        && p.IIDGRADO.Equals(IIDGrado)).Select(p => p.IIDCURSO);
+
+                        foreach(var curso in listaCursos)
                         {
                             DetalleMatricula dm = new DetalleMatricula();
-                            dm.IIDMATRICULA = idMatricula;
-                            dm.IIDCURSO = (int) item;
+                            dm.IIDMATRICULA = idMG;
+                            dm.IIDCURSO = (int) curso;
                             dm.NOTA1 = 0;
                             dm.NOTA2 = 0;
                             dm.NOTA3 = 0;
                             dm.NOTA4 = 0;
                             dm.PROMEDIO = 0;
-                            dm.bhabilitado.Equals(1);
+                            dm.bhabilitado = 1;
                             bd.DetalleMatricula.InsertOnSubmit(dm);
-
                         }
                         bd.SubmitChanges();
                         transaccion.Complete();
@@ -105,27 +106,15 @@ namespace MIPrimeraAplicacionWeb.Controllers
                     }
                     else
                     {
-                        //Matricula gsaGuardado = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).First();
-                        //gsaGuardado.IIDPERIODO = gsa.IIDPERIODO;
-                        //gsaGuardado.IIDALUMNO = gsa.IIDALUMNO;
-                        //gsaGuardado.IIDGRADO = gsa.IIDGRADO;
-                        //gsaGuardado.IIDSECCION = gsa.IIDSECCION;
-                        //bd.SubmitChanges();
-                        //numRegisAfectados = 1;
-                    }
 
+                    }
                 }
+
             }
             catch (Exception ex) { numRegisAfectados = 0; throw ex; }
 
             return numRegisAfectados;
         }
 
-        //public JsonResult ListarMatricula()
-        //{
-        //    PruebaDataContext bd = new PruebaDataContext();
-
-        //    var lista = (bd.)
-        //}
     }
 }
