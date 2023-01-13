@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Transactions;
+using System.Security.Cryptography;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
@@ -58,7 +59,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
 
-        public int GuardarDatos(Matricula gsa, int IIDGRADOSECCION)
+        public int GuardarDatos(Matricula gsa, int IIDGRADOSECCION, string valorEnviar)
         {
             PruebaDataContext bd = new PruebaDataContext();
             int numRegisAfectados = 0;
@@ -106,7 +107,31 @@ namespace MIPrimeraAplicacionWeb.Controllers
                     }
                     else
                     {
+                        var matricula = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).First();
+                        matricula.IIDPERIODO = gsa.IIDPERIODO;
+                        matricula.IIDGRADO = gsa.IIDGRADO;
+                        matricula.IIDSECCION = gsa.IIDSECCION;
+                        matricula.IIDALUMNO = gsa.IIDALUMNO;
 
+                        var dm = bd.DetalleMatricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA));
+                        foreach(DetalleMatricula dtmt in dm)
+                        {
+                            dtmt.bhabilitado = 0;
+                        }
+                        // 1$5$7 => [1, 5, 7]
+                        string[] valores = valorEnviar.Split('$');
+                        for(int i = 0; i < valores.Length; i++)
+                        {
+                            DetalleMatricula detalleMatri = bd.DetalleMatricula
+                                .Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA) 
+                                && p.IIDCURSO == int.Parse(valores[i])).First();
+
+                            detalleMatri.bhabilitado = 1;
+                        }
+
+                        bd.SubmitChanges();
+                        transaccion.Complete();
+                        numRegisAfectados = 1;
                     }
                 }
 
@@ -116,5 +141,99 @@ namespace MIPrimeraAplicacionWeb.Controllers
             return numRegisAfectados;
         }
 
+        public JsonResult ListarMatricula()
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+
+            var lista = from matricula in bd.Matricula
+                        join periodo in bd.Periodo
+                        on matricula.IIDPERIODO equals periodo.IIDPERIODO
+                        join grado in bd.Grado
+                        on matricula.IIDGRADO equals grado.IIDGRADO
+                        join seccion in bd.Seccion
+                        on matricula.IIDSECCION equals seccion.IIDSECCION
+                        join alumno in bd.Alumno
+                        on matricula.IIDALUMNO equals alumno.IIDALUMNO
+                        where matricula.BHABILITADO == 1
+                        select new
+                        {
+                            IID = matricula.IIDMATRICULA,
+                            nombrePeriodo = periodo.NOMBRE,
+                            nombreGrado = grado.NOMBRE,
+                            nombreSeccion = seccion.NOMBRE,
+                            nombreAlumno = alumno.NOMBRE + " " + alumno.APPATERNO + " " + alumno.APMATERNO
+                        };
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+
+        public int Eliminar(int id)
+        {
+            int numRegisAfectados = 0;
+            PruebaDataContext bd = new PruebaDataContext();
+
+            try
+            {
+                using(var transaccion = new TransactionScope())
+                {
+                    Matricula objMtricula = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(id)).First();
+                    objMtricula.BHABILITADO = 0;
+                    bd.SubmitChanges();
+
+                    var listaDetalleMatricula = bd.DetalleMatricula.Where(p => p.IIDMATRICULA.Equals(id));
+                    
+                    foreach(DetalleMatricula objDM in listaDetalleMatricula)
+                    {
+                        objDM.bhabilitado = 0;
+                    }
+
+                    bd.SubmitChanges();
+                    transaccion.Complete();
+                    numRegisAfectados = 1;
+                }
+            }
+            catch(Exception e)
+            {
+                numRegisAfectados = 0;
+                throw e;
+            }
+            return numRegisAfectados;
+        }
+
+        public JsonResult RecuperarDatos(int id)
+        {
+            using (PruebaDataContext bd = new PruebaDataContext())
+            {
+                var obj = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(id)).Select(p => new
+                {
+                    IIDMATRICULA = (int) p.IIDMATRICULA,
+                    IIDPERIODO = (int) p.IIDPERIODO,
+                    IIDSECCION = (int) p.IIDSECCION,
+                    IIDALUMNO = (int) p.IIDALUMNO
+                }).First();
+
+                return Json(obj, JsonRequestBehavior.AllowGet);
+            }
+        }
+
+        public JsonResult RecuperarCursos(int id)
+        {
+            using (PruebaDataContext bd = new PruebaDataContext())
+            {
+                var obj = (from detalleMatricula in bd.DetalleMatricula
+                          join curso in bd.Curso
+                          on detalleMatricula.IIDCURSO equals curso.IIDCURSO
+                          where detalleMatricula.IIDMATRICULA == id
+                          select new
+                          {
+                              detalleMatricula.IIDMATRICULA,
+                              curso.IIDCURSO,
+                              curso.NOMBRE,
+                              detalleMatricula.bhabilitado
+                          }).ToList();
+
+                return Json(obj, JsonRequestBehavior.AllowGet);
+            }
+        }
     }
 }
