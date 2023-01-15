@@ -80,58 +80,79 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 {
                     if (gsa.IIDMATRICULA.Equals(0))
                     {
-                        bd.Matricula.InsertOnSubmit(gsa);
-                        bd.SubmitChanges();
+                        int numVeces = bd.Matricula.Where(p => p.IIDALUMNO.Equals(gsa.IIDALUMNO) 
+                        && p.IIDPERIODO.Equals(gsa.IIDPERIODO) && p.IIDGRADO.Equals(gsa.IIDGRADO)).Count();
 
-                        int idMG = gsa.IIDMATRICULA;
-
-                        var listaCursos = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
-                        && p.IIDGRADO.Equals(IIDGrado)).Select(p => p.IIDCURSO);
-
-                        foreach(var curso in listaCursos)
+                        if(numVeces == 0)
                         {
-                            DetalleMatricula dm = new DetalleMatricula();
-                            dm.IIDMATRICULA = idMG;
-                            dm.IIDCURSO = (int) curso;
-                            dm.NOTA1 = 0;
-                            dm.NOTA2 = 0;
-                            dm.NOTA3 = 0;
-                            dm.NOTA4 = 0;
-                            dm.PROMEDIO = 0;
-                            dm.bhabilitado = 1;
-                            bd.DetalleMatricula.InsertOnSubmit(dm);
+                            bd.Matricula.InsertOnSubmit(gsa);
+                            bd.SubmitChanges();
+
+                            int idMG = gsa.IIDMATRICULA;
+
+                            var listaCursos = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
+                            && p.IIDGRADO.Equals(IIDGrado)).Select(p => p.IIDCURSO);
+
+                            foreach (var curso in listaCursos)
+                            {
+                                DetalleMatricula dm = new DetalleMatricula();
+                                dm.IIDMATRICULA = idMG;
+                                dm.IIDCURSO = (int)curso;
+                                dm.NOTA1 = 0;
+                                dm.NOTA2 = 0;
+                                dm.NOTA3 = 0;
+                                dm.NOTA4 = 0;
+                                dm.PROMEDIO = 0;
+                                dm.bhabilitado = 1;
+                                bd.DetalleMatricula.InsertOnSubmit(dm);
+                            }
+                            bd.SubmitChanges();
+                            transaccion.Complete();
+                            numRegisAfectados = 1;
                         }
-                        bd.SubmitChanges();
-                        transaccion.Complete();
-                        numRegisAfectados = 1;
+                        else
+                        {
+                            numRegisAfectados = -1;
+                        }
                     }
                     else
                     {
-                        var matricula = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).First();
-                        matricula.IIDPERIODO = gsa.IIDPERIODO;
-                        matricula.IIDGRADO = gsa.IIDGRADO;
-                        matricula.IIDSECCION = gsa.IIDSECCION;
-                        matricula.IIDALUMNO = gsa.IIDALUMNO;
+                        int numVeces = bd.Matricula.Where(p => p.IIDALUMNO.Equals(gsa.IIDALUMNO)
+                        && p.IIDPERIODO.Equals(gsa.IIDPERIODO) && p.IIDGRADO.Equals(gsa.IIDGRADO)
+                        && !p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).Count();
 
-                        var dm = bd.DetalleMatricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA));
-                        foreach(DetalleMatricula dtmt in dm)
+                        if(numVeces == 0)
                         {
-                            dtmt.bhabilitado = 0;
+                            var matricula = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).First();
+                            matricula.IIDPERIODO = gsa.IIDPERIODO;
+                            matricula.IIDGRADO = gsa.IIDGRADO;
+                            matricula.IIDSECCION = gsa.IIDSECCION;
+                            matricula.IIDALUMNO = gsa.IIDALUMNO;
+
+                            var dm = bd.DetalleMatricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA));
+                            foreach (DetalleMatricula dtmt in dm)
+                            {
+                                dtmt.bhabilitado = 0;
+                            }
+                            // 1$5$7 => [1, 5, 7]
+                            string[] valores = valorEnviar.Split('$');
+                            for (int i = 0; i < valores.Length; i++)
+                            {
+                                DetalleMatricula detalleMatri = bd.DetalleMatricula
+                                    .Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)
+                                    && p.IIDCURSO == int.Parse(valores[i])).First();
+
+                                detalleMatri.bhabilitado = 1;
+                            }
+
+                            bd.SubmitChanges();
+                            transaccion.Complete();
+                            numRegisAfectados = 1;
                         }
-                        // 1$5$7 => [1, 5, 7]
-                        string[] valores = valorEnviar.Split('$');
-                        for(int i = 0; i < valores.Length; i++)
+                        else
                         {
-                            DetalleMatricula detalleMatri = bd.DetalleMatricula
-                                .Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA) 
-                                && p.IIDCURSO == int.Parse(valores[i])).First();
-
-                            detalleMatri.bhabilitado = 1;
+                            numRegisAfectados = -1;
                         }
-
-                        bd.SubmitChanges();
-                        transaccion.Complete();
-                        numRegisAfectados = 1;
                     }
                 }
 

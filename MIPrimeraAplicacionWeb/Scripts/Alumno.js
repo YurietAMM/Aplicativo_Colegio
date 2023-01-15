@@ -166,10 +166,15 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
+                    if (data == 1) {
                         Listar();
                     } else {
-                        alert("ocurrio un error");
+                        if (data == 0) {
+                            alert("ocurrio un error");
+                        }
+                        else {
+                            alert("Ya esta registrado ese nombre");
+                        }
                     }
                 }
             });

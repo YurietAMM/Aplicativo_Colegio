@@ -174,12 +174,16 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
-                        console.log("todo bien");
+                    if (data == 1) {
                         Listar();
                         document.getElementById("btn-cerrarModal").click();
                     } else {
-                        alert("ocurrio un error");
+                        if (data == 0) {
+                            alert("ocurrio un error");
+                        }
+                        else {
+                            alert("Ese nombre ya esta registrado");
+                        }
                     }
                 }
             });

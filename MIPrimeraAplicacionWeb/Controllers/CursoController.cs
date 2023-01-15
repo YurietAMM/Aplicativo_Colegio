@@ -50,17 +50,33 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if(cursito.IIDCURSO == 0)
                 {
-                    bd.Curso.InsertOnSubmit(cursito);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Curso.Where(p => p.NOMBRE.Equals(cursito.NOMBRE)).Count();
+                    if(numVeces == 0) 
+                    {
+                        bd.Curso.InsertOnSubmit(cursito);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    Curso cursoSel = (bd.Curso.Where(p => p.IIDCURSO.Equals(cursito.IIDCURSO))).First();
-                    cursoSel.NOMBRE = cursito.NOMBRE;
-                    cursoSel.DESCRIPCION = cursito.DESCRIPCION;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Curso.Where(p => p.NOMBRE.Equals(cursito.NOMBRE) && !p.IIDCURSO.Equals(cursito.IIDCURSO)).Count();
+                    if (numVeces == 0)
+                    {
+                        Curso cursoSel = (bd.Curso.Where(p => p.IIDCURSO.Equals(cursito.IIDCURSO))).First();
+                        cursoSel.NOMBRE = cursito.NOMBRE;
+                        cursoSel.DESCRIPCION = cursito.DESCRIPCION;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados= -1;
+                    }
                 }
             }
             catch(Exception e)

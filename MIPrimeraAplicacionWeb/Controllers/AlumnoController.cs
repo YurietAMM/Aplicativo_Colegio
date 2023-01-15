@@ -60,7 +60,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 p => new { 
                     p.IIDALUMNO, p.NOMBRE,  p.APPATERNO, p.APMATERNO, 
                     FECHANACIMIENTO = ((DateTime)p.FECHANACIMIENTO).ToShortDateString(), 
-                    p.IIDSEXO, p.TELEFONOPADRE, p.TELEFONOMADRE, p.NUMEROHERMANOS })).ToList();
+                    p.IIDSEXO, p.TELEFONOPADRE, p.TELEFONOMADRE, p.NUMEROHERMANOS })).First();
             
             return Json(lista, JsonRequestBehavior.AllowGet);
         }
@@ -74,23 +74,40 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (alumnito.IIDALUMNO == 0)
                 {
-                    bd.Alumno.InsertOnSubmit(alumnito);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Alumno.Where(p => p.NOMBRE.Equals(alumnito.NOMBRE)).Count();
+                    if (numVeces == 0)
+                    {
+                        bd.Alumno.InsertOnSubmit(alumnito);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    Alumno alumnoSel = (bd.Alumno.Where(p => p.IIDALUMNO.Equals(alumnito.IIDALUMNO))).First();
-                    alumnoSel.NOMBRE = alumnito.NOMBRE;
-                    alumnoSel.APPATERNO = alumnito.APPATERNO;
-                    alumnoSel.APMATERNO = alumnito.APMATERNO;
-                    alumnoSel.FECHANACIMIENTO = alumnito.FECHANACIMIENTO;
-                    alumnoSel.IIDSEXO = alumnito.IIDSEXO;
-                    alumnoSel.TELEFONOPADRE = alumnito.TELEFONOPADRE;
-                    alumnoSel.TELEFONOMADRE = alumnito.TELEFONOMADRE;
-                    alumnoSel.NUMEROHERMANOS = alumnito.NUMEROHERMANOS;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Alumno.Where(p => p.NOMBRE.Equals(alumnito.NOMBRE) 
+                    && p.APPATERNO.Equals(alumnito.APPATERNO) && p.APMATERNO.Equals(alumnito.APMATERNO)).Count();
+                    if(numVeces == 0)
+                    {
+                        Alumno alumnoSel = (bd.Alumno.Where(p => p.IIDALUMNO.Equals(alumnito.IIDALUMNO))).First();
+                        alumnoSel.NOMBRE = alumnito.NOMBRE;
+                        alumnoSel.APPATERNO = alumnito.APPATERNO;
+                        alumnoSel.APMATERNO = alumnito.APMATERNO;
+                        alumnoSel.FECHANACIMIENTO = alumnito.FECHANACIMIENTO;
+                        alumnoSel.IIDSEXO = alumnito.IIDSEXO;
+                        alumnoSel.TELEFONOPADRE = alumnito.TELEFONOPADRE;
+                        alumnoSel.TELEFONOMADRE = alumnito.TELEFONOMADRE;
+                        alumnoSel.NUMEROHERMANOS = alumnito.NUMEROHERMANOS;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    } 
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
             }
             catch (Exception e)

@@ -1,14 +1,4 @@
-﻿//console.log("hola");
-//var box = document.getElementsByClassName("checkBox");
-//var boxLength = box.length;
-//for (var i = 0; i < boxLength; i++) {
-//    box[i].addEventListener("click", () => {
-//        console.log(box[i].id);
-//    });
-//}
-
-
-function CrearListado(arrayColumna, data) {
+﻿function CrearListado(arrayColumna, data) {
     var contenido = "";
 
     contenido += "<table id='tablas' class='table'>";
@@ -164,12 +154,16 @@ function Agregar() {
                 contentType: false,
                 processData: false,
                 success: function (data) {
-                    if (data != 0) {
-                        console.log("todo bien");
+                    if (data == 1) {
                         Listar();
                         document.getElementById("btn-cerrarModal").click();
                     } else {
-                        alert("ocurrio un error");
+                        if (data == 0) {
+                            alert("ocurrio un error");
+                        }
+                        else {
+                            alert("Ya esta registrado");
+                        }
                     }
                 }
             });

@@ -99,18 +99,39 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (pgc.IID == 0)
                 {
-                    bd.PeriodoGradoCurso.InsertOnSubmit(pgc);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(pgc.IIDPERIODO) 
+                    && p.IIDGRADO.Equals(pgc.IIDGRADO) && p.IIDCURSO.Equals(pgc.IIDCURSO)).Count();
+
+                    if(numVeces == 0)
+                    {
+                        bd.PeriodoGradoCurso.InsertOnSubmit(pgc);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    PeriodoGradoCurso pgcGuardado = bd.PeriodoGradoCurso.Where(p => p.IID.Equals(pgc.IID)).First();
-                    pgcGuardado.IIDGRADO = pgc.IIDGRADO;
-                    pgcGuardado.IIDPERIODO = pgc.IIDPERIODO;
-                    pgcGuardado.IIDCURSO = pgc.IIDCURSO;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(pgc.IIDPERIODO)
+                    && p.IIDGRADO.Equals(pgc.IIDGRADO) && p.IIDCURSO.Equals(pgc.IIDCURSO)
+                    && !p.IID.Equals(pgc.IID)).Count();
+
+                    if(numVeces == 0)
+                    {
+                        PeriodoGradoCurso pgcGuardado = bd.PeriodoGradoCurso.Where(p => p.IID.Equals(pgc.IID)).First();
+                        pgcGuardado.IIDGRADO = pgc.IIDGRADO;
+                        pgcGuardado.IIDPERIODO = pgc.IIDPERIODO;
+                        pgcGuardado.IIDCURSO = pgc.IIDCURSO;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
             }
             catch (Exception ex) { numRegisAfectados = 0; throw ex; }

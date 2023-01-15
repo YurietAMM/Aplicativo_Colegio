@@ -141,20 +141,41 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (gsa.IID.Equals(0))
                 {
-                    bd.GradoSeccionAula.InsertOnSubmit(gsa);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.GradoSeccionAula.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
+                    && p.IIDGRADOSECCION.Equals(gsa.IIDGRADOSECCION) && p.IIDCURSO.Equals(gsa.IIDCURSO)).Count();
+
+                    if(numVeces == 0)
+                    {
+                        bd.GradoSeccionAula.InsertOnSubmit(gsa);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    GradoSeccionAula gsaGuardado = bd.GradoSeccionAula.Where(p => p.IID.Equals(gsa.IID)).First();
-                    gsaGuardado.IIDPERIODO = gsa.IIDPERIODO;
-                    gsaGuardado.IIDCURSO = gsa.IIDCURSO;
-                    gsaGuardado.IIDDOCENTE = gsa.IIDDOCENTE;
-                    gsaGuardado.IIDGRADOSECCION = gsa.IIDGRADOSECCION;
-                    gsaGuardado.IIDAULA = gsa.IIDAULA;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.GradoSeccionAula.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
+                    && p.IIDGRADOSECCION.Equals(gsa.IIDGRADOSECCION) && p.IIDCURSO.Equals(gsa.IIDCURSO)
+                    && !p.IID.Equals(gsa.IID)).Count();
+
+                    if(numVeces == 0)
+                    {
+                        GradoSeccionAula gsaGuardado = bd.GradoSeccionAula.Where(p => p.IID.Equals(gsa.IID)).First();
+                        gsaGuardado.IIDPERIODO = gsa.IIDPERIODO;
+                        gsaGuardado.IIDCURSO = gsa.IIDCURSO;
+                        gsaGuardado.IIDDOCENTE = gsa.IIDDOCENTE;
+                        gsaGuardado.IIDGRADOSECCION = gsa.IIDGRADOSECCION;
+                        gsaGuardado.IIDAULA = gsa.IIDAULA;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
             }
             catch (Exception ex) { numRegisAfectados = 0; throw ex; }

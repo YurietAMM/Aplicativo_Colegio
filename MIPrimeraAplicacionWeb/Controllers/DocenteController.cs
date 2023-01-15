@@ -93,27 +93,43 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (docentito.IIDDOCENTE == 0)
                 {
-                    docentito.FOTO = Convert.FromBase64String(cadenaFoto);
-                    bd.Docente.InsertOnSubmit(docentito);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Docente.Where(p => p.NOMBRE.Equals(docentito.NOMBRE)).Count();
+                    if(numVeces == 0)
+                    {
+                        docentito.FOTO = Convert.FromBase64String(cadenaFoto);
+                        bd.Docente.InsertOnSubmit(docentito);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    Docente docenteSel = bd.Docente.Where(p => p.IIDDOCENTE.Equals(docentito.IIDDOCENTE)).First();
-                    docenteSel.NOMBRE = docentito.NOMBRE;
-                    docenteSel.APPATERNO = docentito.APPATERNO;
-                    docenteSel.APMATERNO = docentito.APMATERNO;
-                    docenteSel.DIRECCION = docentito.DIRECCION;
-                    docenteSel.TELEFONOCELULAR = docentito.TELEFONOCELULAR;
-                    docenteSel.TELEFONOFIJO = docentito.TELEFONOFIJO;
-                    docenteSel.EMAIL = docentito.EMAIL;
-                    docenteSel.IIDSEXO = docentito.IIDSEXO;
-                    docenteSel.FECHACONTRATO = docentito.FECHACONTRATO;
-                    docenteSel.IIDMODALIDADCONTRATO = docentito.IIDMODALIDADCONTRATO;
-                    docenteSel.FOTO = Convert.FromBase64String(cadenaFoto);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Docente.Where(p => p.NOMBRE.Equals(docentito.NOMBRE) && !p.IIDDOCENTE.Equals(docentito.IIDDOCENTE)).Count();
+                    if(numVeces == 0)
+                    {
+                        Docente docenteSel = bd.Docente.Where(p => p.IIDDOCENTE.Equals(docentito.IIDDOCENTE)).First();
+                        docenteSel.NOMBRE = docentito.NOMBRE;
+                        docenteSel.APPATERNO = docentito.APPATERNO;
+                        docenteSel.APMATERNO = docentito.APMATERNO;
+                        docenteSel.DIRECCION = docentito.DIRECCION;
+                        docenteSel.TELEFONOCELULAR = docentito.TELEFONOCELULAR;
+                        docenteSel.TELEFONOFIJO = docentito.TELEFONOFIJO;
+                        docenteSel.EMAIL = docentito.EMAIL;
+                        docenteSel.IIDSEXO = docentito.IIDSEXO;
+                        docenteSel.FECHACONTRATO = docentito.FECHACONTRATO;
+                        docenteSel.IIDMODALIDADCONTRATO = docentito.IIDMODALIDADCONTRATO;
+                        docenteSel.FOTO = Convert.FromBase64String(cadenaFoto);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
             }
             catch (Exception e) { numRegisAfectados = 0; throw e; }

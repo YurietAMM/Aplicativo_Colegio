@@ -68,18 +68,37 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (periodito.IIDPERIODO == 0)
                 {
-                    bd.Periodo.InsertOnSubmit(periodito);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.Periodo.Where(p => p.NOMBRE.Equals(periodito.NOMBRE)).Count();
+                    if (numVeces == 0)
+                    {
+                        bd.Periodo.InsertOnSubmit(periodito);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    Periodo periodoSel = (bd.Periodo.Where(p => p.IIDPERIODO.Equals(periodito.IIDPERIODO))).First();
-                    periodoSel.NOMBRE = periodito.NOMBRE;
-                    periodoSel.FECHAINICIO = periodito.FECHAINICIO;
-                    periodoSel.FECHAFIN = periodito.FECHAFIN;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    //cuantos nombres de ese mismo ya existen pero sin contar el mismo que estoy editando
+
+                    int numVeces = bd.Periodo.Where(p => p.NOMBRE.Equals(periodito.NOMBRE) && !p.IIDPERIODO.Equals(periodito.IIDPERIODO)).Count();
+                    if (numVeces == 0)
+                    {
+                        Periodo periodoSel = (bd.Periodo.Where(p => p.IIDPERIODO.Equals(periodito.IIDPERIODO))).First();
+                        periodoSel.NOMBRE = periodito.NOMBRE;
+                        periodoSel.FECHAINICIO = periodito.FECHAINICIO;
+                        periodoSel.FECHAFIN = periodito.FECHAFIN;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
+                    
                 }
             }catch(Exception e)
             { 

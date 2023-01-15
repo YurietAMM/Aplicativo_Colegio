@@ -77,17 +77,37 @@ namespace MIPrimeraAplicacionWeb.Controllers
             {
                 if (gradiSeccionsita.IID == 0)
                 {
-                    bd.GradoSeccion.InsertOnSubmit(gradiSeccionsita);
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.GradoSeccion.Where(p => p.IIDGRADO.Equals(gradiSeccionsita.IIDGRADO) 
+                    && p.IIDSECCION.Equals(gradiSeccionsita.IIDSECCION)).Count();
+
+                    if(numVeces == 0)
+                    {
+                        bd.GradoSeccion.InsertOnSubmit(gradiSeccionsita);
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
                 else
                 {
-                    GradoSeccion gradoSeccionSel = bd.GradoSeccion.Where(p => p.IID.Equals(gradiSeccionsita.IID)).First();
-                    gradoSeccionSel.IIDGRADO = gradiSeccionsita.IIDGRADO;
-                    gradoSeccionSel.IIDSECCION = gradiSeccionsita.IIDSECCION;
-                    bd.SubmitChanges();
-                    numRegisAfectados = 1;
+                    int numVeces = bd.GradoSeccion.Where(p => p.IIDGRADO.Equals(gradiSeccionsita.IIDGRADO)
+                    && p.IIDSECCION.Equals(gradiSeccionsita.IIDSECCION) && !p.IID.Equals(gradiSeccionsita.IID)).Count();
+                    
+                    if(numVeces == 0)
+                    {
+                        GradoSeccion gradoSeccionSel = bd.GradoSeccion.Where(p => p.IID.Equals(gradiSeccionsita.IID)).First();
+                        gradoSeccionSel.IIDGRADO = gradiSeccionsita.IIDGRADO;
+                        gradoSeccionSel.IIDSECCION = gradiSeccionsita.IIDSECCION;
+                        bd.SubmitChanges();
+                        numRegisAfectados = 1;
+                    }
+                    else
+                    {
+                        numRegisAfectados = -1;
+                    }
                 }
             }
             catch(Exception ex) { numRegisAfectados = 0; throw ex; }
