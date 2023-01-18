@@ -319,6 +319,8 @@ namespace MIPrimeraAplicacionWeb
 		
 		private EntityRef<TIPOUSUARIO> _TIPOUSUARIO;
 		
+		private EntityRef<TIPOUSUARIO> _TIPOUSUARIO1;
+		
     #region Definiciones de métodos de extensibilidad
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -354,6 +356,7 @@ namespace MIPrimeraAplicacionWeb
 			this._Matricula = new EntitySet<Matricula>(new Action<Matricula>(this.attach_Matricula), new Action<Matricula>(this.detach_Matricula));
 			this._Sexo = default(EntityRef<Sexo>);
 			this._TIPOUSUARIO = default(EntityRef<TIPOUSUARIO>);
+			this._TIPOUSUARIO1 = default(EntityRef<TIPOUSUARIO>);
 			OnCreated();
 		}
 		
@@ -572,7 +575,7 @@ namespace MIPrimeraAplicacionWeb
 			{
 				if ((this._IIDTIPOUSUARIO != value))
 				{
-					if (this._TIPOUSUARIO.HasLoadedOrAssignedValue)
+					if ((this._TIPOUSUARIO.HasLoadedOrAssignedValue || this._TIPOUSUARIO1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -682,6 +685,40 @@ namespace MIPrimeraAplicacionWeb
 						this._IIDTIPOUSUARIO = default(Nullable<char>);
 					}
 					this.SendPropertyChanged("TIPOUSUARIO");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TIPOUSUARIO_Alumno1", Storage="_TIPOUSUARIO1", ThisKey="IIDTIPOUSUARIO", OtherKey="IIDTIPOUSUARIO", IsForeignKey=true)]
+		public TIPOUSUARIO TIPOUSUARIO1
+		{
+			get
+			{
+				return this._TIPOUSUARIO1.Entity;
+			}
+			set
+			{
+				TIPOUSUARIO previousValue = this._TIPOUSUARIO1.Entity;
+				if (((previousValue != value) 
+							|| (this._TIPOUSUARIO1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TIPOUSUARIO1.Entity = null;
+						previousValue.Alumno1.Remove(this);
+					}
+					this._TIPOUSUARIO1.Entity = value;
+					if ((value != null))
+					{
+						value.Alumno1.Add(this);
+						this._IIDTIPOUSUARIO = value.IIDTIPOUSUARIO;
+					}
+					else
+					{
+						this._IIDTIPOUSUARIO = default(Nullable<char>);
+					}
+					this.SendPropertyChanged("TIPOUSUARIO1");
 				}
 			}
 		}
@@ -1405,6 +1442,8 @@ namespace MIPrimeraAplicacionWeb
 		
 		private EntityRef<TIPOUSUARIO> _TIPOUSUARIO;
 		
+		private EntityRef<TIPOUSUARIO> _TIPOUSUARIO1;
+		
     #region Definiciones de métodos de extensibilidad
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1448,6 +1487,7 @@ namespace MIPrimeraAplicacionWeb
 			this._ModalidadContrato = default(EntityRef<ModalidadContrato>);
 			this._Sexo = default(EntityRef<Sexo>);
 			this._TIPOUSUARIO = default(EntityRef<TIPOUSUARIO>);
+			this._TIPOUSUARIO1 = default(EntityRef<TIPOUSUARIO>);
 			OnCreated();
 		}
 		
@@ -1730,7 +1770,7 @@ namespace MIPrimeraAplicacionWeb
 			{
 				if ((this._IIDTIPOUSUARIO != value))
 				{
-					if (this._TIPOUSUARIO.HasLoadedOrAssignedValue)
+					if ((this._TIPOUSUARIO.HasLoadedOrAssignedValue || this._TIPOUSUARIO1.HasLoadedOrAssignedValue))
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
@@ -1887,6 +1927,40 @@ namespace MIPrimeraAplicacionWeb
 						this._IIDTIPOUSUARIO = default(Nullable<char>);
 					}
 					this.SendPropertyChanged("TIPOUSUARIO");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TIPOUSUARIO_Docente1", Storage="_TIPOUSUARIO1", ThisKey="IIDTIPOUSUARIO", OtherKey="IIDTIPOUSUARIO", IsForeignKey=true)]
+		public TIPOUSUARIO TIPOUSUARIO1
+		{
+			get
+			{
+				return this._TIPOUSUARIO1.Entity;
+			}
+			set
+			{
+				TIPOUSUARIO previousValue = this._TIPOUSUARIO1.Entity;
+				if (((previousValue != value) 
+							|| (this._TIPOUSUARIO1.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._TIPOUSUARIO1.Entity = null;
+						previousValue.Docente1.Remove(this);
+					}
+					this._TIPOUSUARIO1.Entity = value;
+					if ((value != null))
+					{
+						value.Docente1.Add(this);
+						this._IIDTIPOUSUARIO = value.IIDTIPOUSUARIO;
+					}
+					else
+					{
+						this._IIDTIPOUSUARIO = default(Nullable<char>);
+					}
+					this.SendPropertyChanged("TIPOUSUARIO1");
 				}
 			}
 		}
@@ -4892,7 +4966,11 @@ namespace MIPrimeraAplicacionWeb
 		
 		private EntitySet<Alumno> _Alumno;
 		
+		private EntitySet<Alumno> _Alumno1;
+		
 		private EntitySet<Docente> _Docente;
+		
+		private EntitySet<Docente> _Docente1;
 		
 		private EntitySet<Usuario> _Usuario;
 		
@@ -4911,7 +4989,9 @@ namespace MIPrimeraAplicacionWeb
 		public TIPOUSUARIO()
 		{
 			this._Alumno = new EntitySet<Alumno>(new Action<Alumno>(this.attach_Alumno), new Action<Alumno>(this.detach_Alumno));
+			this._Alumno1 = new EntitySet<Alumno>(new Action<Alumno>(this.attach_Alumno1), new Action<Alumno>(this.detach_Alumno1));
 			this._Docente = new EntitySet<Docente>(new Action<Docente>(this.attach_Docente), new Action<Docente>(this.detach_Docente));
+			this._Docente1 = new EntitySet<Docente>(new Action<Docente>(this.attach_Docente1), new Action<Docente>(this.detach_Docente1));
 			this._Usuario = new EntitySet<Usuario>(new Action<Usuario>(this.attach_Usuario), new Action<Usuario>(this.detach_Usuario));
 			OnCreated();
 		}
@@ -4989,6 +5069,19 @@ namespace MIPrimeraAplicacionWeb
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TIPOUSUARIO_Alumno1", Storage="_Alumno1", ThisKey="IIDTIPOUSUARIO", OtherKey="IIDTIPOUSUARIO")]
+		public EntitySet<Alumno> Alumno1
+		{
+			get
+			{
+				return this._Alumno1;
+			}
+			set
+			{
+				this._Alumno1.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TIPOUSUARIO_Docente", Storage="_Docente", ThisKey="IIDTIPOUSUARIO", OtherKey="IIDTIPOUSUARIO")]
 		public EntitySet<Docente> Docente
 		{
@@ -4999,6 +5092,19 @@ namespace MIPrimeraAplicacionWeb
 			set
 			{
 				this._Docente.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="TIPOUSUARIO_Docente1", Storage="_Docente1", ThisKey="IIDTIPOUSUARIO", OtherKey="IIDTIPOUSUARIO")]
+		public EntitySet<Docente> Docente1
+		{
+			get
+			{
+				return this._Docente1;
+			}
+			set
+			{
+				this._Docente1.Assign(value);
 			}
 		}
 		
@@ -5047,6 +5153,18 @@ namespace MIPrimeraAplicacionWeb
 			entity.TIPOUSUARIO = null;
 		}
 		
+		private void attach_Alumno1(Alumno entity)
+		{
+			this.SendPropertyChanging();
+			entity.TIPOUSUARIO1 = this;
+		}
+		
+		private void detach_Alumno1(Alumno entity)
+		{
+			this.SendPropertyChanging();
+			entity.TIPOUSUARIO1 = null;
+		}
+		
 		private void attach_Docente(Docente entity)
 		{
 			this.SendPropertyChanging();
@@ -5057,6 +5175,18 @@ namespace MIPrimeraAplicacionWeb
 		{
 			this.SendPropertyChanging();
 			entity.TIPOUSUARIO = null;
+		}
+		
+		private void attach_Docente1(Docente entity)
+		{
+			this.SendPropertyChanging();
+			entity.TIPOUSUARIO1 = this;
+		}
+		
+		private void detach_Docente1(Docente entity)
+		{
+			this.SendPropertyChanging();
+			entity.TIPOUSUARIO1 = null;
 		}
 		
 		private void attach_Usuario(Usuario entity)

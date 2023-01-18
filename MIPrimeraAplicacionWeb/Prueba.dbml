@@ -17,6 +17,7 @@
       <Association Name="Alumno_Matricula" Member="Matricula" ThisKey="IIDALUMNO" OtherKey="IIDALUMNO" Type="Matricula" />
       <Association Name="Sexo_Alumno" Member="Sexo" ThisKey="IIDSEXO" OtherKey="IIDSEXO" Type="Sexo" IsForeignKey="true" />
       <Association Name="TIPOUSUARIO_Alumno" Member="TIPOUSUARIO" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="TIPOUSUARIO" IsForeignKey="true" />
+      <Association Name="TIPOUSUARIO_Alumno1" Member="TIPOUSUARIO1" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="TIPOUSUARIO" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.Aula" Member="Aula">
@@ -73,6 +74,7 @@
       <Association Name="ModalidadContrato_Docente" Member="ModalidadContrato" ThisKey="IIDMODALIDADCONTRATO" OtherKey="IIDMODALIDADCONTRATO" Type="ModalidadContrato" IsForeignKey="true" />
       <Association Name="Sexo_Docente" Member="Sexo" ThisKey="IIDSEXO" OtherKey="IIDSEXO" Type="Sexo" IsForeignKey="true" />
       <Association Name="TIPOUSUARIO_Docente" Member="TIPOUSUARIO" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="TIPOUSUARIO" IsForeignKey="true" />
+      <Association Name="TIPOUSUARIO_Docente1" Member="TIPOUSUARIO1" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="TIPOUSUARIO" IsForeignKey="true" />
     </Type>
   </Table>
   <Table Name="dbo.DocentePeriodo" Member="DocentePeriodo">
@@ -221,7 +223,9 @@
       <Column Name="NOMBRE" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
       <Column Name="BHABILITADO" Type="System.Int32" DbType="Int" CanBeNull="true" />
       <Association Name="TIPOUSUARIO_Alumno" Member="Alumno" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="Alumno" />
+      <Association Name="TIPOUSUARIO_Alumno1" Member="Alumno1" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="Alumno" />
       <Association Name="TIPOUSUARIO_Docente" Member="Docente" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="Docente" />
+      <Association Name="TIPOUSUARIO_Docente1" Member="Docente1" ThisKey="IIDTIPOUSUARIO" OtherKey="IIDTIPOUSUARIO" Type="Docente" />
       <Association Name="TIPOUSUARIO_Usuario" Member="Usuario" ThisKey="IIDTIPOUSUARIO" OtherKey="TIPOUSUARIO" Type="Usuario" />
     </Type>
   </Table>

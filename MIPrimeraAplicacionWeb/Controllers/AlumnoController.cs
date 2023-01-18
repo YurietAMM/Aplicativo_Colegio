@@ -77,6 +77,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                     int numVeces = bd.Alumno.Where(p => p.NOMBRE.Equals(alumnito.NOMBRE)).Count();
                     if (numVeces == 0)
                     {
+                        alumnito.IIDTIPOUSUARIO = 'A';
                         bd.Alumno.InsertOnSubmit(alumnito);
                         bd.SubmitChanges();
                         numRegisAfectados = 1;
