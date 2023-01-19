@@ -108,6 +108,7 @@
     <Content Include="Scripts\PeriodoGradoCurso.js" />
     <Content Include="Scripts\RolPagina.js" />
     <Content Include="Scripts\Seccion.js" />
+    <Content Include="Scripts\Usuario.js" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -122,6 +123,7 @@
     <Compile Include="Controllers\PeriodoGradoCursoController.cs" />
     <Compile Include="Controllers\RolPaginaController.cs" />
     <Compile Include="Controllers\SeccionController.cs" />
+    <Compile Include="Controllers\UsuarioController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,6 +160,7 @@
     <Content Include="Views\GradoSeccionAula\Index.cshtml" />
     <Content Include="Views\Matricula\Index.cshtml" />
     <Content Include="Views\RolPagina\Index.cshtml" />
+    <Content Include="Views\Usuario\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

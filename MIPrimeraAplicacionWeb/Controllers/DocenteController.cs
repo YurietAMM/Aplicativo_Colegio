@@ -96,6 +96,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                     int numVeces = bd.Docente.Where(p => p.NOMBRE.Equals(docentito.NOMBRE)).Count();
                     if(numVeces == 0)
                     {
+                        docentito.bTieneUsuario = 0;
                         docentito.IIDTIPOUSUARIO = 'D';
                         docentito.FOTO = Convert.FromBase64String(cadenaFoto);
                         bd.Docente.InsertOnSubmit(docentito);

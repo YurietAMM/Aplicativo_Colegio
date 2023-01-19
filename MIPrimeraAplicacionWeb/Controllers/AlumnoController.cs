@@ -77,6 +77,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                     int numVeces = bd.Alumno.Where(p => p.NOMBRE.Equals(alumnito.NOMBRE)).Count();
                     if (numVeces == 0)
                     {
+                        alumnito.bTieneUsuario = 0;
                         alumnito.IIDTIPOUSUARIO = 'A';
                         bd.Alumno.InsertOnSubmit(alumnito);
                         bd.SubmitChanges();
@@ -90,7 +91,8 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 else
                 {
                     int numVeces = bd.Alumno.Where(p => p.NOMBRE.Equals(alumnito.NOMBRE) 
-                    && p.APPATERNO.Equals(alumnito.APPATERNO) && p.APMATERNO.Equals(alumnito.APMATERNO)).Count();
+                    && p.APPATERNO.Equals(alumnito.APPATERNO) && p.APMATERNO.Equals(alumnito.APMATERNO)
+                    && !p.IIDALUMNO.Equals(alumnito.IIDALUMNO)).Count();
                     if(numVeces == 0)
                     {
                         Alumno alumnoSel = (bd.Alumno.Where(p => p.IIDALUMNO.Equals(alumnito.IIDALUMNO))).First();

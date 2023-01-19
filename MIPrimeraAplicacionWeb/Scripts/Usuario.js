@@ -39,7 +39,7 @@
 
 Listar();
 
-function LlenarComboBox(data , control, primerElemento) {
+function LlenarComboBox(data, control, primerElemento) {
     var contenido = "";
     var nregistros = data.length;
 
@@ -58,44 +58,14 @@ function LlenarComboBox(data , control, primerElemento) {
     control.innerHTML = contenido;
 }
 
-$.get("Alumno/ListarSexo", function (data) {
-    LlenarComboBox(data, document.getElementById("cboSexo"), true);
-    LlenarComboBox(data, document.getElementById("cboModalSexo"), true);
+$.get("Usuario/ListarRoles", function (data) {
+    LlenarComboBox(data, document.getElementById("cboRol"), true);
 });
-
-$("#txtModalFechaNaci").datepicker(
-    {
-        dateFormat: "dd/mm/yy",
-        changeMonth: true,
-        changeYear: true
-    }
-);
 
 function Listar() {
     $.get("Alumno/ListarAlumnos", function (data) {
-        CrearListado(["#", "Nombres", "Apellido Paterno", "Apellido Materno", "Telefono Padre", "Acciones"], data);
+        CrearListado(["#", "Nombre", "COntraseña", "Persona", "Rol", "Acciones"], data);
     });
-}
-
-var btnBuscar = document.getElementById("btnBuscar");
-
-btnBuscar.onclick = function () {
-    var cboSexo = document.getElementById("cboSexo").value;
-
-    if (cboSexo == 0) {
-        Listar();
-    } else {
-
-        $.get("Alumno/BuscarSexo/?sexo=" + cboSexo, function (data) {
-            CrearListado(["#", "Nombres", "Apellido Paterno", "Apellido Materno", "Telefono Padre", "Acciones"], data);
-        });
-    }
-}
-
-var btnLimpiar = document.getElementById("btnLimpiar");
-
-btnLimpiar.onclick = function () {
-    Listar();
 }
 
 function quitarError() {
@@ -188,16 +158,16 @@ function Agregar() {
 
 function Editar(id) {
     $.get("Alumno/RecuperarDatos/?id=" + id, function (data) {
-        document.getElementById("txtModalId").value = data.IIDALUMNO;
-        document.getElementById("txtModalNombre").value = data.NOMBRE;
-        document.getElementById("txtModalApePate").value = data.APPATERNO;
-        document.getElementById("txtModalApeMate").value = data.APMATERNO;
-        document.getElementById("txtModalFechaNaci").value = data.FECHANACIMIENTO;
-        document.getElementById("cboModalSexo").value = data.IIDSEXO;
-        document.getElementById("txtModalTelPadre").value = data.TELEFONOPADRE;
-        document.getElementById("txtModalTelMadre").value = data.TELEFONOMADRE;
-        document.getElementById("txtModalNumHerma").value = data.NUMEROHERMANOS;
-        
+        document.getElementById("txtModalId").value = data[0].IIDALUMNO;
+        document.getElementById("txtModalNombre").value = data[0].NOMBRE;
+        document.getElementById("txtModalApePate").value = data[0].APPATERNO;
+        document.getElementById("txtModalApeMate").value = data[0].APMATERNO;
+        document.getElementById("txtModalFechaNaci").value = data[0].FECHANACIMIENTO;
+        document.getElementById("cboModalSexo").value = data[0].IIDSEXO;
+        document.getElementById("txtModalTelPadre").value = data[0].TELEFONOPADRE;
+        document.getElementById("txtModalTelMadre").value = data[0].TELEFONOMADRE;
+        document.getElementById("txtModalNumHerma").value = data[0].NUMEROHERMANOS;
+
     });
     var btn = document.getElementById("btnAgregarEditar");
     btn.classList.remove("btn-success");
