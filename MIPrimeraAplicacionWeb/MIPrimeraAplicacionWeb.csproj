@@ -129,6 +129,8 @@
     </Compile>
     <Compile Include="Models\Curso.cs" />
     <Compile Include="Models\Periodo.cs" />
+    <Compile Include="Models\Persona.cs" />
+    <Compile Include="Models\UsuarioP.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prueba.designer.cs">
       <AutoGen>True</AutoGen>

@@ -25,8 +25,8 @@
 
         }
         contenido += "<td>";
-        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IIDALUMNO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
-        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='Eliminar(" + data[i].IIDALUMNO + ")'><i class='bi bi-trash3-fill'></i></button>";
+        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IID + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
+        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='AbrirEliminar(" + data[i].IID + ")' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
         contenido += "</tr>";
     }
@@ -36,8 +36,6 @@
 
     document.getElementById("divTabla").innerHTML = contenido;
 }
-
-Listar();
 
 function LlenarComboBox(data, control, primerElemento) {
     var contenido = "";
@@ -62,11 +60,17 @@ $.get("Usuario/ListarRoles", function (data) {
     LlenarComboBox(data, document.getElementById("cboRol"), true);
 });
 
+$.get("Usuario/ListarPersonas", function (data) {
+    LlenarComboBox(data, document.getElementById("cboPersona"), true);
+});
+
 function Listar() {
-    $.get("Alumno/ListarAlumnos", function (data) {
-        CrearListado(["#", "Nombre", "COntraseña", "Persona", "Rol", "Acciones"], data);
+    $.get("Usuario/ListarUsuarios", function (data) {
+        CrearListado(["#", "Nombre Completo", "Nombre Usuario", "Rol", "Tipo", "Acciones"], data);
     });
 }
+
+Listar();
 
 function quitarError() {
     var controlesObliga = document.getElementsByClassName("obligatorios");
@@ -110,28 +114,23 @@ function Agregar() {
         var frm = new FormData();
         var id = document.getElementById("txtModalId").value;
         var nombre = document.getElementById("txtModalNombre").value;
-        var apePater = document.getElementById("txtModalApePate").value;
-        var apeMater = document.getElementById("txtModalApeMate").value;
-        var fechaNaci = document.getElementById("txtModalFechaNaci").value;
-        var sexo = document.getElementById("cboModalSexo").value;
-        var telPater = document.getElementById("txtModalTelPadre").value;
-        var telMater = document.getElementById("txtModalTelMadre").value;
-        var numHerma = document.getElementById("txtModalNumHerma").value;
-        frm.append("IIDALUMNO", id);
-        frm.append("NOMBRE", nombre);
-        frm.append("APPATERNO", apePater);
-        frm.append("APMATERNO", apeMater);
-        frm.append("FECHANACIMIENTO", fechaNaci);
-        frm.append("IIDSEXO", sexo);
-        frm.append("TELEFONOPADRE", telPater);
-        frm.append("TELEFONOMADRE", telMater);
-        frm.append("NUMEROHERMANOS", numHerma);
+        var contraseña = document.getElementById("txtModalContrasena").value;
+        var Persona = document.getElementById("cboPersona").value;
+        var Rol = document.getElementById("cboRol").value;
+        var nombrePersona = document.getElementById("cboPersona").options[document.getElementById("cboPersona").selectedIndex].text;
+
+        frm.append("IIDUSUARIO", id);
+        frm.append("NOMBREUSUARIO", nombre);
+        frm.append("CONTRA", contraseña);
+        frm.append("IID", Persona);
+        frm.append("IIDROl", Rol);
         frm.append("BHABILITADO", 1);
+        frm.append("NombrePersona", nombrePersona)
 
         if (confirm("¿Desea realmente guardar?") == 1) {
             $.ajax({
                 type: "POST",
-                url: "Alumno/GuardarDatos",
+                url: "Usuario/GuardarDatos",
                 data: frm,
                 contentType: false,
                 processData: false,
@@ -157,16 +156,10 @@ function Agregar() {
 }
 
 function Editar(id) {
-    $.get("Alumno/RecuperarDatos/?id=" + id, function (data) {
-        document.getElementById("txtModalId").value = data[0].IIDALUMNO;
-        document.getElementById("txtModalNombre").value = data[0].NOMBRE;
-        document.getElementById("txtModalApePate").value = data[0].APPATERNO;
-        document.getElementById("txtModalApeMate").value = data[0].APMATERNO;
-        document.getElementById("txtModalFechaNaci").value = data[0].FECHANACIMIENTO;
-        document.getElementById("cboModalSexo").value = data[0].IIDSEXO;
-        document.getElementById("txtModalTelPadre").value = data[0].TELEFONOPADRE;
-        document.getElementById("txtModalTelMadre").value = data[0].TELEFONOMADRE;
-        document.getElementById("txtModalNumHerma").value = data[0].NUMEROHERMANOS;
+    $.get("Usuario/RecuperarDatos/?id=" + id, function (data) {
+        document.getElementById("txtModalId").value = data.IID;
+        document.getElementById("txtModalNombre").value = data.NOMBRE;
+        
 
     });
     var btn = document.getElementById("btnAgregarEditar");
@@ -177,7 +170,7 @@ function Editar(id) {
 
 function Eliminar(id) {
     if (confirm("Desea eliminar?") == 1) {
-        $.get("Alumno/EliminarAlumno/?idAlumno=" + id, function (data) {
+        $.get("Usuario/EliminarUsuario/?idUsuario=" + id, function (data) {
             if (data == 0) {
                 alert("Ocurrio un error");
             }
