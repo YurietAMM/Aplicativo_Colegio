@@ -136,8 +136,9 @@ function Agregar() {
                 console.log(valorEnviar);
             }
         }
-        
-        valorEnviar = valorEnviar.substring(0, valorEnviar.length - 1);
+
+        if (valorEnviar != "") 
+            valorEnviar = valorEnviar.substring(0, valorEnviar.length - 1);
 
         frm.append("valorEnviar", valorEnviar);
         frm.append("IIDMATRICULA", id);
@@ -175,13 +176,15 @@ function Agregar() {
 }
 
 function Editar(Id) {
-
-    $.get("Matricula/RecuperarDatos/?id=" + Id, function (data) {
-        document.getElementById("txtModalId").value = data.IIDMATRICULA;
-        document.getElementById("cboModalPeriodo").value = data.IIDPERIODO;
-        document.getElementById("cboModalGradoSeccion").value = data.IIDSECCION;
-        document.getElementById("cboModalAlumno").value = data.IIDALUMNO;
-    });
+    if (Id != 0) {
+        $.get("Matricula/RecuperarDatos/?id=" + Id, function (data) {
+            document.getElementById("txtModalId").value = data.IIDMATRICULA;
+            document.getElementById("cboModalPeriodo").value = data.IIDPERIODO;
+            document.getElementById("cboModalGradoSeccion").value = data.IIDSECCION;
+            document.getElementById("cboModalAlumno").value = data.IIDALUMNO;
+        });
+    }
+    
     document.getElementById("tablaCursos").innerHTML = "";
     $.get("Matricula/RecuperarCursos/?id=" + Id, function (data) {
         var contenido = "";

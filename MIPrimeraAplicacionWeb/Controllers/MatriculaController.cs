@@ -123,7 +123,7 @@ namespace MIPrimeraAplicacionWeb.Controllers
                         && p.IIDPERIODO.Equals(gsa.IIDPERIODO) && p.IIDGRADO.Equals(gsa.IIDGRADO)
                         && !p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).Count();
 
-                        if(numVeces == 0)
+                        if (numVeces == 0)
                         {
                             var matricula = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)).First();
                             matricula.IIDPERIODO = gsa.IIDPERIODO;
@@ -138,15 +138,16 @@ namespace MIPrimeraAplicacionWeb.Controllers
                             }
                             // 1$5$7 => [1, 5, 7]
                             string[] valores = valorEnviar.Split('$');
-                            for (int i = 0; i < valores.Length; i++)
-                            {
-                                DetalleMatricula detalleMatri = bd.DetalleMatricula
-                                    .Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)
-                                    && p.IIDCURSO == int.Parse(valores[i])).First();
+                            if (valorEnviar != "") { 
+                                for (int i = 0; i < valores.Length; i++)
+                                {
+                                    DetalleMatricula detalleMatri = bd.DetalleMatricula
+                                        .Where(p => p.IIDMATRICULA.Equals(gsa.IIDMATRICULA)
+                                        && p.IIDCURSO == int.Parse(valores[i])).First();
 
-                                detalleMatri.bhabilitado = 1;
+                                    detalleMatri.bhabilitado = 1;
+                                }
                             }
-
                             bd.SubmitChanges();
                             transaccion.Complete();
                             numRegisAfectados = 1;
@@ -227,11 +228,16 @@ namespace MIPrimeraAplicacionWeb.Controllers
         {
             using (PruebaDataContext bd = new PruebaDataContext())
             {
+                Matricula MATRICULA = bd.Matricula.Where(p => p.IIDMATRICULA == id).First();
+                int idGrado = (int) MATRICULA.IIDGRADO;
+                int idSeccion = (int) MATRICULA.IIDSECCION;
+                int idd = bd.GradoSeccion.Where(p => p.IIDGRADO == idGrado && p.IIDSECCION == idSeccion).Select(p => p.IID).First();
+
                 var obj = bd.Matricula.Where(p => p.IIDMATRICULA.Equals(id)).Select(p => new
                 {
                     IIDMATRICULA = (int) p.IIDMATRICULA,
                     IIDPERIODO = (int) p.IIDPERIODO,
-                    IIDSECCION = (int) p.IIDSECCION,
+                    IIDSECCION = (int) idd,
                     IIDALUMNO = (int) p.IIDALUMNO
                 }).First();
 
