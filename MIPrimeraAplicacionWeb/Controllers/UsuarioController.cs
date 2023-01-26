@@ -1,4 +1,5 @@
-﻿using MIPrimeraAplicacionWeb.Models;
+﻿using MIPrimeraAplicacionWeb.Filters;
+using MIPrimeraAplicacionWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Web.Mvc;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class UsuarioController : Controller
     {
         // GET: Usuario
@@ -99,6 +101,13 @@ namespace MIPrimeraAplicacionWeb.Controllers
                         else
                         {
                             //Editar
+                            Usuario us = bd.Usuario.Where(p => p.IIDUSUARIO.Equals(usuarito.IIDUSUARIO)).First();
+
+                            us.IIDROL = usuarito.IIDROL;
+                            us.CONTRA = usuarito.CONTRA;
+                            bd.SubmitChanges();
+                            transaccion.Complete();
+                            numRegisAfectados = 1;
                         }
                     }
                 }
@@ -153,6 +162,24 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 lista = lista.OrderBy(p => p.IID).ToList();
             }
             return Json(lista, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult RecuperarDatos(int id)
+        {
+            using (PruebaDataContext bd = new PruebaDataContext())
+            {
+                var obj = bd.Usuario.Where(p => p.IIDUSUARIO.Equals(id))
+                    .Select(p => new
+                    {
+                        p.IIDUSUARIO,
+                        p.NOMBREUSUARIO,
+                        p.CONTRA,
+                        p.IID,
+                        p.IIDROL
+                    }).First();
+
+                return Json(obj, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

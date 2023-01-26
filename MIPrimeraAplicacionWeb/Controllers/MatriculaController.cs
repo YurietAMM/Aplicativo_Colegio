@@ -5,9 +5,11 @@ using System.Web;
 using System.Web.Mvc;
 using System.Transactions;
 using System.Security.Cryptography;
+using MIPrimeraAplicacionWeb.Filters;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class MatriculaController : Controller
     {
         // GET: Matricula

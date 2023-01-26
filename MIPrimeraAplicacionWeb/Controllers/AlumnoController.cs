@@ -1,4 +1,5 @@
-﻿using MIPrimeraAplicacionWeb.Models;
+﻿using MIPrimeraAplicacionWeb.Filters;
+using MIPrimeraAplicacionWeb.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class AlumnoController : Controller
     {
         // GET: Alumno

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MIPrimeraAplicacionWeb.Filters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -7,6 +8,7 @@ using System.Web.UI.WebControls;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class GradoSeccionAulaController : Controller
     {
         // GET: GradoSeccionAula

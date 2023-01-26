@@ -106,6 +106,16 @@ function cerrarModal() {
     btn.classList.remove("btn-info");
     btn.classList.add("btn-success");
     btn.value = "Agregar";
+    //Persona
+    document.getElementById("divPersona").style.display = "block";
+    document.getElementById("divNomPersona").style.display = "block";
+    document.getElementById("divCboPersona").style.display = "block";
+    document.getElementById("cboPersona").style.display = "block";
+    //Usuario
+    document.getElementById("divUsuario").style.display = "block";
+    document.getElementById("divNomUsuario").style.display = "block";
+    document.getElementById("divtxtUsuario").style.display = "block";
+    document.getElementById("txtModalNombre").style.display = "block";
 }
 
 function Agregar() {
@@ -157,15 +167,26 @@ function Agregar() {
 
 function Editar(id) {
     $.get("Usuario/RecuperarDatos/?id=" + id, function (data) {
-        document.getElementById("txtModalId").value = data.IID;
-        document.getElementById("txtModalNombre").value = data.NOMBRE;
-        
-
+        document.getElementById("txtModalId").value = data.IIDUSUARIO;
+        document.getElementById("txtModalNombre").value = data.NOMBREUSUARIO;
+        document.getElementById("txtModalContrasena").value = data.CONTRA;
+        document.getElementById("cboPersona").value = data.IID;
+        document.getElementById("cboRol").value = data.IIDROL;
     });
     var btn = document.getElementById("btnAgregarEditar");
     btn.classList.remove("btn-success");
     btn.classList.add("btn-info");
     btn.value = "Editar";
+    //Persona
+    document.getElementById("divPersona").style.display = "none";
+    document.getElementById("divNomPersona").style.display = "none";
+    document.getElementById("divCboPersona").style.display = "none";
+    document.getElementById("cboPersona").style.display = "none";
+    //Usuario
+    document.getElementById("divUsuario").style.display = "none";
+    document.getElementById("divNomUsuario").style.display = "none";
+    document.getElementById("divtxtUsuario").style.display = "none";
+    document.getElementById("txtModalNombre").style.display = "none";
 }
 
 function Eliminar(id) {

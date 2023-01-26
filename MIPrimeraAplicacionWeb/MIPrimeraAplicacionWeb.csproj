@@ -92,6 +92,7 @@
   <ItemGroup>
     <Content Include="Content\datatables.css" />
     <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\Login.css" />
     <Content Include="Content\Obligatorios.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Global.asax" />
@@ -103,6 +104,7 @@
     <Content Include="Scripts\GradoSeccionAula.js" />
     <Content Include="Scripts\jquery-3.6.2.min.js" />
     <Content Include="Scripts\jquery-ui.min.js" />
+    <Content Include="Scripts\Login.js" />
     <Content Include="Scripts\Matricula.js" />
     <Content Include="Scripts\Periodo.js" />
     <Content Include="Scripts\PeriodoGradoCurso.js" />
@@ -118,12 +120,15 @@
     <Compile Include="Controllers\DocenteController.cs" />
     <Compile Include="Controllers\GradoSeccionAulaController.cs" />
     <Compile Include="Controllers\GradoSeccionController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\MatriculaController.cs" />
+    <Compile Include="Controllers\PaginaPrincipalController.cs" />
     <Compile Include="Controllers\PeriodoController.cs" />
     <Compile Include="Controllers\PeriodoGradoCursoController.cs" />
     <Compile Include="Controllers\RolPaginaController.cs" />
     <Compile Include="Controllers\SeccionController.cs" />
     <Compile Include="Controllers\UsuarioController.cs" />
+    <Compile Include="Filters\Seguridad.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -131,6 +136,7 @@
     <Compile Include="Models\Periodo.cs" />
     <Compile Include="Models\Persona.cs" />
     <Compile Include="Models\UsuarioP.cs" />
+    <Compile Include="Models\Variable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Prueba.designer.cs">
       <AutoGen>True</AutoGen>
@@ -163,6 +169,8 @@
     <Content Include="Views\Matricula\Index.cshtml" />
     <Content Include="Views\RolPagina\Index.cshtml" />
     <Content Include="Views\Usuario\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\PaginaPrincipal\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

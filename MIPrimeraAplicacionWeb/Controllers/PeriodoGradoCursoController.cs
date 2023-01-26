@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MIPrimeraAplicacionWeb.Filters;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Web.Mvc;
 
 namespace MIPrimeraAplicacionWeb.Controllers
 {
+    [Seguridad]
     public class PeriodoGradoCursoController : Controller
     {
         // GET: PeriodoGradoCurso
