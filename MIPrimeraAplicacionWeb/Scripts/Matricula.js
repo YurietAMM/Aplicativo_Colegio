@@ -118,6 +118,45 @@ function cerrarModal() {
     btn.value = "Agregar";
 }
 
+function recuperar(idPeriodo, idGradoSeccion) {
+    $.get("Matricula/ListarCursos/?idPeriodo=" + idPeriodo + "&idGradoSeccion=" + idGradoSeccion, function (data) {
+        var contenido = "";
+        contenido += "<tbody>";
+        for (var i = 0; i < data.length; i++) {
+            contenido += "<tr>";
+            contenido += "<td>";
+            if (data[i].bhabilitado == 1) {
+                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' checked='true' />";
+            } else {
+                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' />";
+            }
+            contenido += "</td>";
+            contenido += "<td>";
+            contenido += data[i].NOMBRE;
+            contenido += "</td>";
+            contenido += "</tr>";
+        }
+        contenido += "</tbody>";
+
+        document.getElementById("tablaCursos").innerHTML = contenido;
+    });
+}
+
+var cboPeriodo = document.getElementById("cboModalPeriodo");
+var cboGradoSeccion = document.getElementById("cboModalGradoSeccion");
+
+//cboPeriodo.onchange = function () {
+//    if (cboGradoSeccion.value != "" && cboPeriodo.value != "") {
+//        recuperar(cboPeriodo.value, cboGradoSeccion.value);
+//    }
+//}
+
+cboGradoSeccion.onchange = function () {
+    if (cboGradoSeccion.value != "" && cboPeriodo.value != "") {
+        recuperar(cboPeriodo.value, cboGradoSeccion.value);
+    }
+}
+
 function Agregar() {
     if (datosObliga() == true) {
         var frm = new FormData();
@@ -186,6 +225,7 @@ function Editar(Id) {
     }
     
     document.getElementById("tablaCursos").innerHTML = "";
+
     $.get("Matricula/RecuperarCursos/?id=" + Id, function (data) {
         var contenido = "";
         contenido += "<tbody>";

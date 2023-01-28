@@ -264,5 +264,25 @@ namespace MIPrimeraAplicacionWeb.Controllers
                 return Json(obj, JsonRequestBehavior.AllowGet);
             }
         }
+
+        public JsonResult ListarCursos(int idPeriodo, int idGradoSeccion) 
+        {
+            PruebaDataContext bd = new PruebaDataContext();
+            int idGrado = (int) bd.GradoSeccion.Where(p => p.IID.Equals(idGradoSeccion)).First().IIDGRADO;
+
+            var lista = (from pgc in bd.PeriodoGradoCurso
+                         join curso in bd.Curso
+                         on pgc.IIDCURSO equals curso.IIDCURSO
+                         where pgc.BHABILITADO.Equals(1)
+                         && pgc.IIDPERIODO.Equals(idPeriodo)
+                         && pgc.IIDGRADO.Equals(idGrado)
+                         select new 
+                         {
+                             IIDCURSO = curso.IIDCURSO,
+                             NOMBRE = curso.NOMBRE
+                         }).ToList();
+
+            return Json(lista, JsonRequestBehavior.AllowGet);
+        }
     }
 }
