@@ -87,6 +87,13 @@ namespace MIPrimeraAplicacionWeb.Controllers
 
                         if(numVeces == 0)
                         {
+                            //int cantidad = bd.Matricula.Where(p => p.IIDALUMNO.Equals(gsa.IIDALUMNO) && p.IIDPERIODO.Equals(gsa.IIDPERIODO)).Count();
+
+                            //if (cantidad >= 1)
+                            //{
+                            //    numRegisAfectados = -1;
+                            //    return numRegisAfectados;
+                            //}
                             bd.Matricula.InsertOnSubmit(gsa);
                             bd.SubmitChanges();
 
@@ -252,10 +259,15 @@ namespace MIPrimeraAplicacionWeb.Controllers
         {
             using (PruebaDataContext bd = new PruebaDataContext())
             {
+                int idGrado = (int) bd.Matricula.Where(p => p.IIDMATRICULA.Equals(id)).First().IIDGRADO;
+
+                List<int?> lista = bd.PeriodoGradoCurso.Where(p => p.IIDGRADO.Equals(idGrado)).Select(p => p.IIDCURSO).ToList();
+
                 var obj = (from detalleMatricula in bd.DetalleMatricula
                           join curso in bd.Curso
                           on detalleMatricula.IIDCURSO equals curso.IIDCURSO
-                          where detalleMatricula.IIDMATRICULA == id
+                          where detalleMatricula.IIDMATRICULA == id 
+                          && lista.Contains(detalleMatricula.IIDCURSO)
                           select new
                           {
                               detalleMatricula.IIDMATRICULA,
