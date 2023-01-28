@@ -116,6 +116,12 @@ function cerrarModal() {
     btn.classList.remove("btn-info");
     btn.classList.add("btn-success");
     btn.value = "Agregar";
+
+    var check = document.getElementsByClassName("checkBox");
+    for (var i = 0; i < check.length; i++) {
+        check[i].checked = false;
+    }
+    document.getElementById('cboModalAlumno').style.display = 'block';
 }
 
 function recuperar(idPeriodo, idGradoSeccion) {
@@ -125,11 +131,7 @@ function recuperar(idPeriodo, idGradoSeccion) {
         for (var i = 0; i < data.length; i++) {
             contenido += "<tr>";
             contenido += "<td>";
-            if (data[i].bhabilitado == 1) {
-                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' checked='true' />";
-            } else {
-                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' />";
-            }
+            contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' checked='true' />";
             contenido += "</td>";
             contenido += "<td>";
             contenido += data[i].NOMBRE;
@@ -165,9 +167,24 @@ function Agregar() {
         var gradoSeccion = document.getElementById("cboModalGradoSeccion").value;
         var alumno = document.getElementById("cboModalAlumno").value
 
+
         var valorEnviar = "";
         var box = document.getElementsByClassName("checkBox");
         var boxLength = box.length;
+        if (boxLength == "") {
+            document.getElementById("tablaCursos").innerHTML = "No hay cursos asignados a ese periodo y grado";
+            return;
+        }
+        var c = 0;
+        for (var i = 0; i < boxLength; i++) {
+            if (box[i].checked == true) {
+                c++;
+            }
+        }
+        if (c == 0) {
+            alert("No se selecciono ningun curso");
+            return;
+        }
         for (var i = 0; i < boxLength; i++) {
             if (box[i].checked == true) {
                 valorEnviar += box[i].id;
@@ -216,6 +233,7 @@ function Agregar() {
 
 function Editar(Id) {
     if (Id != 0) {
+        document.getElementById('cboModalAlumno').style.display = 'none';
         $.get("Matricula/RecuperarDatos/?id=" + Id, function (data) {
             document.getElementById("txtModalId").value = data.IIDMATRICULA;
             document.getElementById("cboModalPeriodo").value = data.IIDPERIODO;

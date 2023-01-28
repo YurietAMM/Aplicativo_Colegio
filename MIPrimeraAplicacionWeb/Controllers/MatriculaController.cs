@@ -95,10 +95,13 @@ namespace MIPrimeraAplicacionWeb.Controllers
                             var listaCursos = bd.PeriodoGradoCurso.Where(p => p.IIDPERIODO.Equals(gsa.IIDPERIODO)
                             && p.IIDGRADO.Equals(IIDGrado)).Select(p => p.IIDCURSO);
 
+                            //string[] listaCursos = valorEnviar.Split('$');
+
                             foreach (var curso in listaCursos)
                             {
                                 DetalleMatricula dm = new DetalleMatricula();
                                 dm.IIDMATRICULA = idMG;
+                                //dm.IIDCURSO = int.Parse(curso);
                                 dm.IIDCURSO = (int)curso;
                                 dm.NOTA1 = 0;
                                 dm.NOTA2 = 0;
