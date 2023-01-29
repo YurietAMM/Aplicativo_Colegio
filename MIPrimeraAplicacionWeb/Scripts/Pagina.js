@@ -39,7 +39,7 @@
 
 function Listar() {
     $.get("Pagina/ListarPagina", function (data) {
-        CrearListado(["#", "Nombre Periodo", "Nombre Grado", "Nombre Sección", "Nombre Alumno", "Acciones"], data);
+        CrearListado(["#", "Mensaje", "Controlador", "Acción", "Acciones"], data);
     });
 }
 
@@ -124,83 +124,18 @@ function cerrarModal() {
     document.getElementById('cboModalAlumno').style.display = 'block';
 }
 
-function recuperar(idPeriodo, idGradoSeccion) {
-    $.get("Pagina/ListarCursos/?idPeriodo=" + idPeriodo + "&idGradoSeccion=" + idGradoSeccion, function (data) {
-        var contenido = "";
-        contenido += "<tbody>";
-        for (var i = 0; i < data.length; i++) {
-            contenido += "<tr>";
-            contenido += "<td>";
-            contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' checked='true' />";
-            contenido += "</td>";
-            contenido += "<td>";
-            contenido += data[i].NOMBRE;
-            contenido += "</td>";
-            contenido += "</tr>";
-        }
-        contenido += "</tbody>";
-
-        document.getElementById("tablaCursos").innerHTML = contenido;
-    });
-}
-
-var cboPeriodo = document.getElementById("cboModalPeriodo");
-var cboGradoSeccion = document.getElementById("cboModalGradoSeccion");
-
-//cboPeriodo.onchange = function () {
-//    if (cboGradoSeccion.value != "" && cboPeriodo.value != "") {
-//        recuperar(cboPeriodo.value, cboGradoSeccion.value);
-//    }
-//}
-
-cboGradoSeccion.onchange = function () {
-    if (cboGradoSeccion.value != "" && cboPeriodo.value != "") {
-        recuperar(cboPeriodo.value, cboGradoSeccion.value);
-    }
-}
-
 function Agregar() {
     if (datosObliga() == true) {
         var frm = new FormData();
         var id = document.getElementById("txtModalId").value;
-        var periodo = document.getElementById("cboModalPeriodo").value;
-        var gradoSeccion = document.getElementById("cboModalGradoSeccion").value;
-        var alumno = document.getElementById("cboModalAlumno").value
+        var mensaje = document.getElementById("txtModalMensaje").value;
+        var controlador = document.getElementById("txtModalControlador").value;
+        var accion = document.getElementById("txtModalAccion").value
 
-
-        var valorEnviar = "";
-        var box = document.getElementsByClassName("checkBox");
-        var boxLength = box.length;
-        if (boxLength == "") {
-            document.getElementById("tablaCursos").innerHTML = "No hay cursos asignados a ese periodo y grado";
-            return;
-        }
-        var c = 0;
-        for (var i = 0; i < boxLength; i++) {
-            if (box[i].checked == true) {
-                c++;
-            }
-        }
-        if (c == 0) {
-            alert("No se selecciono ningun curso");
-            return;
-        }
-        for (var i = 0; i < boxLength; i++) {
-            if (box[i].checked == true) {
-                valorEnviar += box[i].id;
-                valorEnviar += "$";
-                console.log(valorEnviar);
-            }
-        }
-
-        if (valorEnviar != "")
-            valorEnviar = valorEnviar.substring(0, valorEnviar.length - 1);
-
-        frm.append("valorEnviar", valorEnviar);
-        frm.append("IIDMATRICULA", id);
-        frm.append("IIDPERIODO", periodo);
-        frm.append("IIDGRADOSECCION", gradoSeccion);
-        frm.append("IIDALUMNO", alumno);
+        frm.append("IIDPAGINA", id);
+        frm.append("MENSAJE", mensaje);
+        frm.append("CONTROLADOR", controlador);
+        frm.append("ACCION", accion);
         frm.append("BHABILITADO", 1);
 
         if (confirm("¿Desea realmente guardar?") == 1) {
@@ -233,38 +168,13 @@ function Agregar() {
 
 function Editar(Id) {
     if (Id != 0) {
-        document.getElementById('cboModalAlumno').style.display = 'none';
         $.get("Pagina/RecuperarDatos/?id=" + Id, function (data) {
-            document.getElementById("txtModalId").value = data.IIDMATRICULA;
-            document.getElementById("cboModalPeriodo").value = data.IIDPERIODO;
-            document.getElementById("cboModalGradoSeccion").value = data.IIDSECCION;
-            document.getElementById("cboModalAlumno").value = data.IIDALUMNO;
+            document.getElementById("txtModalId").value = data.IIDPAGINA;
+            document.getElementById("txtModalMensaje").value = data.MENSAJE;
+            document.getElementById("txtModalControlador").value = data.CONTROLADOR;
+            document.getElementById("txtModalAccion").value = data.ACCION;
         });
     }
-
-    document.getElementById("tablaCursos").innerHTML = "";
-
-    $.get("Pagina/RecuperarCursos/?id=" + Id, function (data) {
-        var contenido = "";
-        contenido += "<tbody>";
-        for (var i = 0; i < data.length; i++) {
-            contenido += "<tr>";
-            contenido += "<td>";
-            if (data[i].bhabilitado == 1) {
-                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' checked='true' />";
-            } else {
-                contenido += "<input type='checkbox' id=" + data[i].IIDCURSO + " class='checkBox form-check' />";
-            }
-            contenido += "</td>";
-            contenido += "<td>";
-            contenido += data[i].NOMBRE;
-            contenido += "</td>";
-            contenido += "</tr>";
-        }
-        contenido += "</tbody>";
-
-        document.getElementById("tablaCursos").innerHTML = contenido;
-    });
 
     var btn = document.getElementById("btnAgregarEditar");
     btn.classList.remove("btn-success");

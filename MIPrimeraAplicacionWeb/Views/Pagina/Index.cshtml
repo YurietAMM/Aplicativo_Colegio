@@ -3,9 +3,73 @@
     ViewBag.Title = "Index";
 }
 
+<link href="~/Content/Obligatorios.css" rel="stylesheet" />
+
 <h2>Index</h2>
 
+<div class="container">
+    <button type="button" class="btn btn-success" data-bs-toggle='modal' data-bs-target='#agregarEditarModal'>
+        Agregar
+    </button>
+    <div id="divTabla" class="container">
 
+    </div>
+</div>
+
+<!-- Modal Borrar -->
+<div class="modal" id="borrarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Borrar</h1>
+                <button id="btn-cerrarModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p class="h3">¿Esta seguro de borrar esto?</p>
+                <br />
+                <input type="hidden" id="spanModalId" />
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" onclick="Eliminar()">Borrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Agregar/Aptualizar -->
+<div class="modal" id="agregarEditarModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar</h1>
+                <button id="btn-cerrarModal" type="button" class="btn-close" onclick="cerrarModal()" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div id="body-editar-modal" class="modal-body">
+                <div class='container'>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>ID:</div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalId' class='borrar form-control' readonly /></div>
+                    </div>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>Mensaje:</div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalMensaje' class='borrar obligatorios form-control' /></div>
+                    </div>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>Controlador:</div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalControlador' class='borrar obligatorios form-control' /></div>
+                    </div>
+                    <div class='row text-align-center d-flex'>
+                        <div class='col-4 text-align-center align-items-center'>Acción:</div>
+                        <div class='col-8 align-items-center'><input type='text' id='txtModalAccion' class='borrar obligatorios form-control' /></div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input type="button" id='btnAgregarEditar' onclick="Agregar()" class="btn btn-success" value="Agregar" />
+            </div>
+        </div>
+    </div>
+</div>
 
 <script src="~/Scripts/jquery-3.6.2.min.js"></script>
 <script src="~/Scripts/Pagina.js"></script>
