@@ -55,15 +55,21 @@
 
                     @{
                         int numElementos = Variable.acciones.Count();
-
-                        for (int i = 0; i < numElementos; i++)
+                        if (numElementos != null)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link" aria-current="page" href="#">
-                                    @Html.ActionLink(Variable.mensaje[i], Variable.acciones[i], Variable.controladores[i], new { area = "" }, new { @class = "navbar-brand" })
-                                </a>
-                            </li>
+                            for (int i = 0; i < numElementos; i++)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" aria-current="page" href="#">
+                                        @Html.ActionLink(Variable.mensaje[i], Variable.acciones[i], Variable.controladores[i], new { area = "" }, new { @class = "navbar-brand" })
+                                    </a>
+                                </li>
+                            }
+                        }else
+                        {
+                            Response.Redirect("~/Login/Index");
                         }
+
                     }
 
                     @*<li class="nav-item">

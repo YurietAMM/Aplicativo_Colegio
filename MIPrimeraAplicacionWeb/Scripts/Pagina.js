@@ -3,14 +3,14 @@
 
     contenido += "<table id='tablas' class='table'>";
     contenido += "<thead>";
-    contenido += "<tr>";
+    contenido += "    <tr>";
     for (var i = 0; i < arrayColumna.length; i++) {
         contenido += "<th scope='col'>";
         contenido += arrayColumna[i];
         contenido += "</th>";
     }
 
-    contenido += "</tr>";
+    contenido += "    </tr>";
     contenido += "</thead>";
     contenido += "<tbody>";
     var nfilas = data.length;
@@ -25,16 +25,17 @@
 
         }
         contenido += "<td>";
-        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IID + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
-        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' onclick='AbrirEliminar(" + data[i].IID + ")' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
+        contenido += "<button class='btn btn-info' data-bs-toggle='modal' onclick='Editar(" + data[i].IIDCURSO + ")' data-bs-target='#agregarEditarModal'><i class='bi bi-pencil-square'></i></button>";
+        contenido += "<button  class='btn btn-danger' data-bs-toggle='modal' data-bs-target='#borrarModal'><i class='bi bi-trash3-fill'></i></button>";
         contenido += "</td>";
-        contenido += "</tr>";
+        contenido += "    </tr>";
     }
 
     contenido += "</tbody>";
     contenido += "</table>";
 
     document.getElementById("divTabla").innerHTML = contenido;
+    $("#tablas").dataTable({ searching: false });
 }
 
 function Listar() {
@@ -44,43 +45,6 @@ function Listar() {
 }
 
 Listar();
-
-function LlenarComboBox(data, control, primerElemento) {
-    var contenido = "";
-    var nregistros = data.length;
-
-    if (primerElemento == true) {
-        contenido += "<option value='0'>";
-        contenido += "--Seleccione--"
-        contenido += "</option>"
-    }
-
-    for (var i = 0; i < nregistros; i++) {
-        contenido += "<option value='" + data[i].IID + "'>";
-        contenido += data[i].NOMBRE;
-        contenido += "</option>";
-    }
-
-    control.innerHTML = contenido;
-}
-
-function LlenarCombos() {
-
-    $.get("Pagina/ListarPeriodo", function (data) {
-        LlenarComboBox(data, document.getElementById("cboModalPeriodo"), true);
-    });
-
-    $.get("Pagina/ListarGradoSeccion", function (data) {
-        LlenarComboBox(data, document.getElementById("cboModalGradoSeccion"), true);
-    });
-
-    $.get("Pagina/ListarAlumnos", function (data) {
-        LlenarComboBox(data, document.getElementById("cboModalAlumno"), true);
-    });
-
-}
-
-LlenarCombos();
 
 function quitarError() {
     var controlesObliga = document.getElementsByClassName("obligatorios");
@@ -147,8 +111,8 @@ function Agregar() {
                 processData: false,
                 success: function (data) {
                     if (data == 1) {
-                        Listar();
                         document.getElementById("btn-cerrarModal").click();
+                        Listar();
                     } else {
                         if (data == 0) {
                             alert("ocurrio un error");
