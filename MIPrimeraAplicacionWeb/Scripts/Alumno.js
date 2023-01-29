@@ -60,7 +60,7 @@ function LlenarComboBox(data , control, primerElemento) {
 
 $.get("Alumno/ListarSexo", function (data) {
     LlenarComboBox(data, document.getElementById("cboSexo"), true);
-    LlenarComboBox(data, document.getElementById("cboModalSexo"), true);
+    /*LlenarComboBox(data, document.getElementById("cboModalSexo"), true);*/
 });
 
 $("#txtModalFechaNaci").datepicker(
@@ -132,6 +132,11 @@ function cerrarModal() {
     btn.classList.remove("btn-info");
     btn.classList.add("btn-success");
     btn.value = "Agregar";
+
+    var radios = document.getElementsByClassName("form-check-input");
+    for (var i = 0; i < radios.length; i++) {
+        radios[i].checked = false;
+    }
 }
 
 function Agregar() {
@@ -143,7 +148,14 @@ function Agregar() {
         var apePater = document.getElementById("txtModalApePate").value;
         var apeMater = document.getElementById("txtModalApeMate").value;
         var fechaNaci = document.getElementById("txtModalFechaNaci").value;
-        var sexo = document.getElementById("cboModalSexo").value;
+        /*var sexo = document.getElementById("cboModalSexo").value;*/
+        var sexo;
+        if (document.getElementById("radioModalMaculino").checked == true) {
+            sexo = 1;
+        }
+        else {
+            sexo = 2;
+        }
         var telPater = document.getElementById("txtModalTelPadre").value;
         var telMater = document.getElementById("txtModalTelMadre").value;
         var numHerma = document.getElementById("txtModalNumHerma").value;
@@ -193,7 +205,12 @@ function Editar(id) {
         document.getElementById("txtModalApePate").value = data.APPATERNO;
         document.getElementById("txtModalApeMate").value = data.APMATERNO;
         document.getElementById("txtModalFechaNaci").value = data.FECHANACIMIENTO;
-        document.getElementById("cboModalSexo").value = data.IIDSEXO;
+        /*document.getElementById("cboModalSexo").value = data.IIDSEXO;*/
+        if (data.IIDSEXO == 1) {
+            document.getElementById("radioModalMaculino").checked = true;
+        } else {
+            document.getElementById("radioModalFemenino").checked = true;
+        }
         document.getElementById("txtModalTelPadre").value = data.TELEFONOPADRE;
         document.getElementById("txtModalTelMadre").value = data.TELEFONOMADRE;
         document.getElementById("txtModalNumHerma").value = data.NUMEROHERMANOS;

@@ -57,6 +57,15 @@ btnBuscar.onclick = function () {
     });
 }
 
+function voz(mensaje) {
+    var vozHablar = new SpeechSynthesisUtterance(mensaje);
+    window.SpeechSynthesis.speak(vozHablar);
+}
+
+document.getElementById("btnVoz").onclick = function () {
+    voz("Bienvenido");
+}
+
 var btnLimpiar = document.getElementById("btnLimpiar");
 
 btnLimpiar.onclick = function () {

@@ -38,9 +38,24 @@
     $("#tablas").dataTable({ searching: false });
 }
 
+//function Listar() {
+//    $.get("Pagina/ListarPagina", function (data) {
+//        CrearListado(["#", "Mensaje", "Controlador", "Acción", "Acciones"], data);
+//    });
+//}
+
 function Listar() {
-    $.get("Pagina/ListarPagina", function (data) {
-        CrearListado(["#", "Mensaje", "Controlador", "Acción", "Acciones"], data);
+    $.ajax({
+        url: "https://localhost:44347/Pagina/ListarPagina",
+        dataType: "json",
+        success: function (respuesta) {
+            if (respuesta.length != 0) {
+                CrearListado(["#", "Mensaje", "Controlador", "Acción", "Acciones"], respuesta);
+            }
+        },
+        error: function () {
+            alert("Ocurrio un error");
+        },
     });
 }
 
@@ -88,13 +103,21 @@ function cerrarModal() {
     document.getElementById('cboModalAlumno').style.display = 'block';
 }
 
+var frm = new FormData();
+
 function Agregar() {
-    if (datosObliga() == true) {
-        var frm = new FormData();
-        var id = document.getElementById("txtModalId").value;
-        var mensaje = document.getElementById("txtModalMensaje").value;
-        var controlador = document.getElementById("txtModalControlador").value;
-        var accion = document.getElementById("txtModalAccion").value
+    if (datosObliga() == true)
+    {
+        var id = $("#txtModalId").val();
+        var mensaje = $("txtModalMensaje").val();
+        var controlador = $("txtModalControlador").val();
+        var accion = $("txtModalAccion").val();
+
+        frm.append("IIDPAGINA", id);
+        frm.append("MENSAJE", mensaje);
+        frm.append("CONTROLADOR", controlador);
+        frm.append("ACCION", accion);
+        frm.append("BHABILITADO", 1);
 
         frm.append("IIDPAGINA", id);
         frm.append("MENSAJE", mensaje);
@@ -105,7 +128,7 @@ function Agregar() {
         if (confirm("¿Desea realmente guardar?") == 1) {
             $.ajax({
                 type: "POST",
-                url: "Pagina/GuardarDatos",
+                url: "https://localhost:44347/Pagina/GuardarDatos",
                 data: frm,
                 contentType: false,
                 processData: false,
@@ -124,9 +147,8 @@ function Agregar() {
                 }
             });
         }
-
-
     }
+
     quitarError();
 }
 
